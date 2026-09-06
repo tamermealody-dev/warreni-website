@@ -2,13 +2,14 @@
 
 import Link from 'next/link'
 import { ArrowLeft, Clock3, Eye, EyeOff, MailCheck, Sparkles } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, type FormEvent } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { EGYPT_LOCATIONS } from '@/lib/locations'
 
 export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const signup = mode === 'signup'
   const [show, setShow] = useState(false)
   const [fullName, setFullName] = useState('')
@@ -24,6 +25,14 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
   const [forgotSent, setForgotSent] = useState(false)
   const [forgotLoading, setForgotLoading] = useState(false)
   const [forgotError, setForgotError] = useState<string | null>(null)
+
+  // Only allow same-origin relative paths, so this can't be used to redirect
+  // to an external site.
+  function destinationAfterAuth() {
+    const target = searchParams.get('redirectedFrom')
+    if (target && target.startsWith('/') && !target.startsWith('//')) return target
+    return '/profile'
+  }
 
   async function handleForgotSubmit(e: FormEvent) {
     e.preventDefault()
@@ -64,7 +73,7 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
         // no session yet — show the "check your email" screen instead of
         // redirecting straight to the profile.
         if (data.session) {
-          router.push('/profile')
+          router.push(destinationAfterAuth())
           router.refresh()
         } else {
           setAwaitingConfirmation(true)
@@ -82,7 +91,7 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
           password,
         })
         if (signInError) throw signInError
-        router.push('/profile')
+        router.push(destinationAfterAuth())
         router.refresh()
       }
     } catch (err) {

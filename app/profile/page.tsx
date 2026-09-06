@@ -71,7 +71,7 @@ interface OtherProfileRow {
   avatar_url: string | null
 }
 interface LiveSessionRow { id: string; status: string; started_at: string; ends_at: string }
-interface BookingPaymentRow { id: string; status: string; amount_egp: number; provider_earnings_egp: number; platform_fee_egp: number }
+interface BookingPaymentRow { id: string; status: string; amount_egp: number; provider_earnings_egp: number; platform_fee_egp: number; reference_code: string | null }
 interface StartApprovalRow { booking_id: string; user_id: string }
 interface NotificationRow {
   id: string
@@ -207,7 +207,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
       supabase.from('booking_confirmations').select('booking_id, user_id, confirmed').eq('booking_id', acceptedBooking.id),
       supabase.from('session_start_approvals').select('booking_id, user_id').eq('booking_id', acceptedBooking.id),
       supabase.from('live_sessions').select('id, status, started_at, ends_at').eq('booking_id', acceptedBooking.id).maybeSingle(),
-      supabase.from('booking_payments').select('id, status, amount_egp, provider_earnings_egp, platform_fee_egp').eq('booking_id', acceptedBooking.id).maybeSingle(),
+      supabase.from('booking_payments').select('id, status, amount_egp, provider_earnings_egp, platform_fee_egp, reference_code').eq('booking_id', acceptedBooking.id).maybeSingle(),
     ])
     const confirmations = (confirmationsData ?? []) as ConfirmationRow[]
     const approvals = (approvalsData ?? []) as StartApprovalRow[]
@@ -234,6 +234,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
       paymentStatus: bookingPayment?.status ?? null,
       amountEgp: bookingPayment?.amount_egp ?? acceptedBooking.amount_egp ?? null,
       providerEarningsEgp: bookingPayment?.provider_earnings_egp ?? acceptedBooking.provider_earnings_egp ?? null,
+      referenceCode: bookingPayment?.reference_code ?? null,
     }
   }
 
@@ -255,11 +256,14 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
   const data: ProfileData = {
     userId: user.id,
     fullName: profile.full_name,
+    phone: profile.phone,
     city: profile.city,
     bio: profile.bio,
     avatarUrl: profile.avatar_url,
     memberSinceYear: new Date(profile.created_at).getFullYear(),
     walletBalance: wallet.balance_hours,
+    walletMoneyBalance: wallet.balance_egp,
+    walletPendingMoney: wallet.pending_earnings_egp,
     skills: skills.map((s) => ({ id: s.id, category: s.category, title: s.title })),
     completedCount,
     avgRating,

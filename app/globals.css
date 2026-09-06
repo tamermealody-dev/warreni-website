@@ -137,6 +137,63 @@ footer { padding-block:54px 22px; background:#fff; }.footer-grid { display:grid;
 .payment-trust>svg:last-child{margin-right:auto}
 .payment-trust p{margin:4px 0 0;color:#64736b;font-size:13px}
 .plans-note{text-align:center;color:#7d8782;font-size:12px;margin-top:18px}
+.method-step{width:min(560px,100%);margin:50px auto 0;text-align:center}
+.method-step h2{font-size:clamp(24px,4vw,34px);margin:16px 0 6px;letter-spacing:-.03em}
+.method-subtitle{color:#66716c;line-height:1.8;margin:0 0 22px}
+.button.small{padding:8px 14px;font-size:12px}
+.method-grid{display:grid;gap:12px}
+.method-card{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-radius:18px;border:1px solid #dfe9e3;background:#fff;font:inherit;cursor:pointer;text-align:right}
+.method-card.active{border-color:#6d9d86}
+.method-card.active:hover{box-shadow:0 12px 30px rgba(25,50,40,.08)}
+.method-card strong{font-size:16px}
+.method-card.active span{color:#3d7157;font-weight:700;font-size:12px;background:#eef7f2;padding:5px 10px;border-radius:999px}
+.method-card.disabled{opacity:.55;cursor:not-allowed}
+.method-card.disabled span{color:#9ba49f;font-weight:700;font-size:12px;background:#f3f4f2;padding:5px 10px;border-radius:999px}
+.instructions-box{background:#fff;border:1px solid #e0e9e4;border-radius:24px;padding:30px;box-shadow:0 18px 50px rgba(25,50,40,.06)}
+.handle-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-radius:14px;background:#f7fbf9;border:1px dashed #cfe0d7;margin-bottom:20px;font-weight:800;font-size:15px}
+.submitted-box{display:flex;flex-direction:column;align-items:center}
+.submitted-box svg{color:#3d7157;margin-bottom:8px}
+.admin-page{min-height:100vh;background:#f7fbf9;padding:40px 18px 70px}
+.admin-shell{width:min(900px,100%);margin:auto}
+.admin-header{text-align:center;margin-bottom:30px}
+.admin-header h1{font-size:clamp(24px,4vw,32px);margin:6px 0 0;letter-spacing:-.03em}
+.admin-login-card{width:min(380px,100%);margin:40px auto 0;background:#fff;border:1px solid #e0e9e4;border-radius:22px;padding:30px;text-align:center;box-shadow:0 18px 50px rgba(25,50,40,.06)}
+.admin-login-icon{width:48px;height:48px;margin:0 auto 14px;border-radius:14px;background:#eef7f2;color:#3d7157;display:grid;place-items:center}
+.admin-login-card h2{margin:0 0 6px;font-size:20px}
+.admin-login-card p{margin:0 0 18px;color:#66716c;font-size:13px}
+.admin-login-card input{width:100%;border:1px solid #d9e3de;border-radius:12px;padding:12px 14px;font:inherit;outline:none;margin-bottom:14px;text-align:center}
+.admin-login-card input:focus{border-color:#6d9d86;box-shadow:0 0 0 3px rgba(109,157,134,.12)}
+.admin-denied{width:min(420px,100%);margin:40px auto 0;background:#fff;border:1px solid #f0d9d2;border-radius:22px;padding:30px;text-align:center;box-shadow:0 18px 50px rgba(25,50,40,.06)}
+.admin-denied svg{color:#b24732;margin-bottom:10px}
+.admin-denied h2{margin:0 0 6px;font-size:20px}
+.admin-denied p{margin:0;color:#66716c;font-size:13px}
+.admin-toolbar{display:flex;justify-content:flex-end;gap:10px;margin-bottom:18px}
+.admin-empty{text-align:center;color:#7d8782;padding:40px 0}
+.admin-list{display:grid;gap:14px}
+.admin-row{background:#fff;border:1px solid #e0e9e4;border-radius:18px;padding:18px 20px}
+.admin-row-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.admin-row-top strong{font-size:16px}
+.admin-badge{background:#eef7f2;color:#3d7157;font-weight:700;font-size:12px;padding:5px 10px;border-radius:999px}
+.admin-row-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 16px;margin-bottom:12px}
+.admin-row-grid div{display:flex;flex-direction:column;gap:2px}
+.admin-row-grid small{color:#8a948f;font-size:11px}
+.admin-row-grid span{font-weight:700;font-size:14px}
+.admin-note-input{width:100%;border:1px solid #d9e3de;border-radius:10px;padding:9px 12px;font:inherit;outline:none;margin-bottom:12px;font-size:13px}
+.admin-row-actions{display:flex;gap:10px}
+@media(max-width:600px){.admin-row-grid{grid-template-columns:repeat(2,1fr)}}
+.admin-tabs{display:flex;gap:8px;margin-bottom:18px;overflow-x:auto}
+.admin-tab{display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;border:1px solid #dfe9e3;background:#fff;font:inherit;font-weight:700;font-size:13px;color:#5c6763;cursor:pointer;white-space:nowrap}
+.admin-tab.active{border-color:#3d7157;background:#eef7f2;color:#3d7157}
+.admin-tab-count{background:#3d7157;color:#fff;border-radius:999px;font-size:11px;padding:1px 7px;margin-inline-start:2px}
+.admin-tab.active .admin-tab-count{background:#3d7157}
+.admin-event{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid #e0e9e4;border-radius:16px;padding:14px 16px}
+.admin-event.unseen{border-color:#cfe0d7;background:#f7fbf9}
+.admin-event-icon{width:32px;height:32px;border-radius:10px;background:#eef7f2;color:#3d7157;display:grid;place-items:center;flex-shrink:0}
+.admin-event.unseen .admin-event-icon{background:#fff0ed;color:#b24732}
+.admin-event-body{flex:1;display:flex;flex-direction:column;gap:4px}
+.admin-event-body strong{font-size:14px}
+.admin-event-body p{margin:0;color:#66716c;font-size:12.5px;line-height:1.7}
+.admin-event-body small{color:#9ba49f;font-size:11px}
 .payment-page{min-height:100vh;background:#f7fbf9;display:grid;place-items:center;padding:20px}
 .payment-card{width:min(620px,100%);background:#fff;border:1px solid #e1e9e4;border-radius:30px;padding:45px 35px;text-align:center;box-shadow:0 24px 70px rgba(25,50,40,.08)}
 .payment-mark{width:88px;height:88px;border-radius:28px;background:#edf7f1;color:#3f805e;display:grid;place-items:center;margin:0 auto 20px}
