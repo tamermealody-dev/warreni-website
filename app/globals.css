@@ -181,6 +181,19 @@ footer { padding-block:54px 22px; background:#fff; }.footer-grid { display:grid;
 .admin-note-input{width:100%;border:1px solid #d9e3de;border-radius:10px;padding:9px 12px;font:inherit;outline:none;margin-bottom:12px;font-size:13px}
 .admin-row-actions{display:flex;gap:10px}
 @media(max-width:600px){.admin-row-grid{grid-template-columns:repeat(2,1fr)}}
+.admin-tabs{display:flex;gap:8px;margin-bottom:18px;overflow-x:auto}
+.admin-tab{display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;border:1px solid #dfe9e3;background:#fff;font:inherit;font-weight:700;font-size:13px;color:#5c6763;cursor:pointer;white-space:nowrap}
+.admin-tab.active{border-color:#3d7157;background:#eef7f2;color:#3d7157}
+.admin-tab-count{background:#3d7157;color:#fff;border-radius:999px;font-size:11px;padding:1px 7px;margin-inline-start:2px}
+.admin-tab.active .admin-tab-count{background:#3d7157}
+.admin-event{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid #e0e9e4;border-radius:16px;padding:14px 16px}
+.admin-event.unseen{border-color:#cfe0d7;background:#f7fbf9}
+.admin-event-icon{width:32px;height:32px;border-radius:10px;background:#eef7f2;color:#3d7157;display:grid;place-items:center;flex-shrink:0}
+.admin-event.unseen .admin-event-icon{background:#fff0ed;color:#b24732}
+.admin-event-body{flex:1;display:flex;flex-direction:column;gap:4px}
+.admin-event-body strong{font-size:14px}
+.admin-event-body p{margin:0;color:#66716c;font-size:12.5px;line-height:1.7}
+.admin-event-body small{color:#9ba49f;font-size:11px}
 .payment-page{min-height:100vh;background:#f7fbf9;display:grid;place-items:center;padding:20px}
 .payment-card{width:min(620px,100%);background:#fff;border:1px solid #e1e9e4;border-radius:30px;padding:45px 35px;text-align:center;box-shadow:0 24px 70px rgba(25,50,40,.08)}
 .payment-mark{width:88px;height:88px;border-radius:28px;background:#edf7f1;color:#3f805e;display:grid;place-items:center;margin:0 auto 20px}

@@ -21,7 +21,7 @@ export default async function AdminPaymentsPage() {
       <div className="admin-shell">
         <header className="admin-header">
           <p className="eyebrow">ورّيني · لوحة تحكم</p>
-          <h1>مراجعة طلبات شحن الساعات</h1>
+          <h1>مراجعة المدفوعات</h1>
         </header>
         {allowed ? (
           <AdminPaymentsPanel />

@@ -19,9 +19,12 @@ import {
   CheckCircle2,
   AlertTriangle,
   LoaderCircle,
+  Copy,
+  ClipboardCheck,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { approveSessionStart } from "@/app/sessions/actions";
+import { MANUAL_PAYMENT_METHODS, type ManualMethodId } from "@/lib/payment-methods";
 import {
   acceptBooking,
   addSkillOffered,
@@ -110,6 +113,7 @@ export interface ProfileData {
     paymentStatus: string | null;
     amountEgp: number | null;
     providerEarningsEgp: number | null;
+    referenceCode: string | null;
   } | null;
   disputedCount: number;
   recentTransactions: WalletLedgerRow[];
@@ -232,6 +236,9 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [paymentPhone, setPaymentPhone] = useState(data.phone ?? "");
   const [paymentLoading, setPaymentLoading] = useState(false);
+  const [paymentMethodChoice, setPaymentMethodChoice] =
+    useState<ManualMethodId | null>(null);
+  const [copiedHandle, setCopiedHandle] = useState(false);
 
   const visibleRequests =
     requestTab === "incoming" ? data.incomingRequests : data.outgoingRequests;
@@ -328,31 +335,41 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
 
   async function payForSession() {
     const active = data.activeSession;
-    if (!active || active.paymentMethod !== "money") return;
-    if (!paymentPhone.trim()) {
-      setActionError("اكتب رقم الموبايل الأول عشان نكمل الدفع.");
+    if (!active || active.paymentMethod !== "money" || !paymentMethodChoice)
+      return;
+    if (!/^01\d{9}$/.test(paymentPhone.trim().replace(/[\s()-]/g, ""))) {
+      setActionError("اكتب رقم الموبايل اللي حوّلت منه (01xxxxxxxxx).");
       return;
     }
     setActionError(null);
     setPaymentLoading(true);
     try {
-      const response = await fetch("/api/paymob/create-booking-intention", {
+      const response = await fetch("/api/payments/manual-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           bookingId: active.bookingId,
-          phone: paymentPhone,
+          method: paymentMethodChoice,
+          senderPhone: paymentPhone,
         }),
       });
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "تعذر بدء الدفع.");
-      window.location.href = result.checkoutUrl;
+      if (!response.ok) throw new Error(result.error || "تعذر إرسال طلب الدفع.");
+      router.refresh();
     } catch (err) {
       setActionError(
-        err instanceof Error ? err.message : "حصلت مشكلة في بدء الدفع.",
+        err instanceof Error ? err.message : "حصلت مشكلة في إرسال طلب الدفع.",
       );
+    } finally {
       setPaymentLoading(false);
     }
+  }
+
+  function copyText(text: string) {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedHandle(true);
+      setTimeout(() => setCopiedHandle(false), 1500);
+    });
   }
 
   function handleAddSkill() {
@@ -799,42 +816,97 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
               {data.activeSession.paymentMethod === "money" &&
                 data.activeSession.isRequester &&
                 data.activeSession.paymentStatus !== "paid" &&
-                data.activeSession.paymentStatus !== "released" && (
+                data.activeSession.paymentStatus !== "released" &&
+                data.activeSession.paymentStatus !== "awaiting_review" && (
                   <div className="session-payment-action">
                     <strong>الدفع مطلوب قبل دخول الجلسة</strong>
                     <p>
-                      بعد تأكيد Paymob للدفع، الغرفة هتفتح تلقائيًا. المبلغ يفضل
-                      Pending لمقدم الخدمة لحد نهاية الجلسة.
+                      حوّل قيمة الجلسة عبر Instapay أو فودافون كاش وأكّد
+                      التحويل تحت. بمجرد ما نراجعها، الغرفة هتفتح تلقائيًا.
+                      المبلغ يفضل Pending لمقدم الخدمة لحد نهاية الجلسة.
                     </p>
-                    <input
-                      value={paymentPhone}
-                      onChange={(e) =>
-                        setPaymentPhone(
-                          e.target.value.replace(/[^0-9+]/g, "").slice(0, 13),
-                        )
-                      }
-                      inputMode="tel"
-                      placeholder="01xxxxxxxxx"
-                      autoComplete="tel"
-                      aria-label="رقم الموبايل للدفع"
-                    />
-                    <button
-                      className="button primary"
-                      disabled={pending || paymentLoading}
-                      onClick={payForSession}
-                    >
-                      {paymentLoading ? (
-                        <>
-                          <LoaderCircle size={15} className="spin" /> جاري تجهيز
-                          الدفع...
-                        </>
-                      ) : (
-                        <>
-                          دفع {arNumber(data.activeSession.amountEgp ?? 0)} جنيه{" "}
-                          <ArrowLeft size={15} />
-                        </>
-                      )}
-                    </button>
+                    <div className="method-grid session-method-grid">
+                      {MANUAL_PAYMENT_METHODS.map((m) => (
+                        <button
+                          key={m.id}
+                          type="button"
+                          className={`method-card ${paymentMethodChoice === m.id ? "active" : ""}`}
+                          onClick={() => setPaymentMethodChoice(m.id)}
+                        >
+                          <strong>{m.name}</strong>
+                          <span>اختار</span>
+                        </button>
+                      ))}
+                    </div>
+                    {paymentMethodChoice && (
+                      <>
+                        <div className="handle-row">
+                          <span>
+                            {
+                              MANUAL_PAYMENT_METHODS.find(
+                                (m) => m.id === paymentMethodChoice,
+                              )?.handle
+                            }
+                          </span>
+                          <button
+                            type="button"
+                            className="button outline small"
+                            onClick={() =>
+                              copyText(
+                                MANUAL_PAYMENT_METHODS.find(
+                                  (m) => m.id === paymentMethodChoice,
+                                )?.handle ?? "",
+                              )
+                            }
+                          >
+                            <Copy size={14} /> {copiedHandle ? "اتنسخ" : "نسخ"}
+                          </button>
+                        </div>
+                        <input
+                          value={paymentPhone}
+                          onChange={(e) =>
+                            setPaymentPhone(
+                              e.target.value.replace(/[^0-9+]/g, "").slice(0, 13),
+                            )
+                          }
+                          inputMode="tel"
+                          placeholder="رقم الموبايل اللي حوّلت منه: 01xxxxxxxxx"
+                          autoComplete="tel"
+                          aria-label="رقم الموبايل للدفع"
+                        />
+                        <button
+                          className="button primary"
+                          disabled={pending || paymentLoading}
+                          onClick={payForSession}
+                        >
+                          {paymentLoading ? (
+                            <>
+                              <LoaderCircle size={15} className="spin" /> جاري
+                              الإرسال...
+                            </>
+                          ) : (
+                            <>
+                              أكدت تحويل {arNumber(data.activeSession.amountEgp ?? 0)}{" "}
+                              جنيه <ArrowLeft size={15} />
+                            </>
+                          )}
+                        </button>
+                      </>
+                    )}
+                  </div>
+                )}
+              {data.activeSession.paymentMethod === "money" &&
+                data.activeSession.isRequester &&
+                data.activeSession.paymentStatus === "awaiting_review" && (
+                  <div className="session-payment-action">
+                    <ClipboardCheck size={18} />
+                    <strong>استلمنا طلب الدفع، جاري المراجعة</strong>
+                    <p>
+                      هنراجع التحويل ونفتح الغرفة تلقائيًا بعد التأكيد.
+                      {data.activeSession.referenceCode
+                        ? ` رقم الطلب: ${data.activeSession.referenceCode}`
+                        : ""}
+                    </p>
                   </div>
                 )}
               {data.activeSession.paymentMethod === "money" &&
