@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-const siteUrl = process.env.APP_URL || 'https://warreeni.com'
+const siteUrl = process.env.APP_URL || 'https://warreni.sahebelcode.xyz'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
