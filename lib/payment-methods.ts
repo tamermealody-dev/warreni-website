@@ -13,13 +13,13 @@ export const MANUAL_PAYMENT_METHODS: ManualPaymentMethod[] = [
   {
     id: 'instapay',
     name: 'Instapay',
-    handle: 'warreeni@instapay', // TODO: استبدل بحساب Instapay الحقيقي
+    handle: 'warreni-web1@instapay',
     instructions: 'حوّل المبلغ على حساب Instapay وابعت نفس رقم التحويل في الخانة تحت.',
   },
   {
     id: 'vodafone_cash',
     name: 'فودافون كاش',
-    handle: '01000000000', // TODO: استبدل برقم محفظة فودافون كاش الحقيقي
+    handle: '01055891861',
     instructions: 'حوّل المبلغ على رقم محفظة فودافون كاش وابعت رقم الموبايل اللي حوّلت منه.',
   },
 ]
