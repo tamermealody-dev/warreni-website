@@ -7,7 +7,7 @@ const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || 'mt1817221@gmail.com')
   .map((email) => email.trim().toLowerCase())
   .filter(Boolean)
 
-/** The logged-in Warreeni user for this request, or null if not logged in. */
+/** The logged-in Allemni user for this request, or null if not logged in. */
 export async function getCurrentUser() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

@@ -6,7 +6,7 @@ import { getPlan } from '@/lib/plans'
 function splitName(fullName: string) {
   const parts = fullName.trim().split(/\s+/).filter(Boolean)
   return {
-    firstName: parts[0] || 'Warreeni',
+    firstName: parts[0] || 'Allemni',
     lastName: parts.slice(1).join(' ') || 'User',
   }
 }
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       .eq('id', user.id)
       .maybeSingle()
 
-    const fullName = profile?.full_name || user.user_metadata?.full_name || 'عضو ورّيني'
+    const fullName = profile?.full_name || user.user_metadata?.full_name || 'عضو علّمني'
     const { firstName, lastName } = splitName(fullName)
     const purchaseId = crypto.randomUUID()
 
@@ -81,7 +81,7 @@ export async function POST(request: Request) {
         currency: 'EGP',
         payment_methods: [integrationId],
         items: [{
-          name: `ورّيني - ${plan.hours} ساعات`,
+          name: `علّمني - ${plan.hours} ساعات`,
           amount,
           description: plan.description,
           quantity: 1,
@@ -117,7 +117,7 @@ export async function POST(request: Request) {
       await admin.from('hour_purchases').update({ status: 'failed' }).eq('id', purchaseId)
       console.error('Paymob intention failed:', response.status, details)
       return NextResponse.json({
-        error: 'تعذر إنشاء عملية الدفع. جرّب تاني.',
+        error: 'تعذر إنشاء عملية الدفع. حاول مرة أخرى.',
         ...(process.env.NODE_ENV !== 'production' ? { debug: { status: response.status, paymob: details } } : {}),
       }, { status: 502 })
     }
@@ -133,6 +133,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ checkoutUrl, purchaseId })
   } catch (error) {
     console.error('create-intention error:', error)
-    return NextResponse.json({ error: 'حصل خطأ غير متوقع.' }, { status: 500 })
+    return NextResponse.json({ error: 'حدث خطأ غير متوقع.' }, { status: 500 })
   }
 }

@@ -1,4 +1,4 @@
--- Warreeni live exchange sessions: timed rooms, consented media, chat and recordings.
+-- Allemni live exchange sessions: timed rooms, consented media, chat and recordings.
 create type session_status as enum ('active','completed','abandoned');
 
 create table live_sessions (

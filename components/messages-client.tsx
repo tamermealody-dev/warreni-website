@@ -112,7 +112,7 @@ export default function MessagesClient({
         await sendMessage(active.id, text)
         router.refresh()
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'حصلت مشكلة، حاول تاني.')
+        setError(err instanceof Error ? err.message : 'حدثت مشكلة، حاول مرة أخرى.')
       }
     })
   }
@@ -124,14 +124,14 @@ export default function MessagesClient({
           <span>
             <MessageCircle size={18} />
           </span>
-          ورّيني
+          علّمني
         </Link>
         <div className="app-nav-links">
           <Link href="/explore">استكشف</Link><Link href="/sessions">الجلسات</Link>
           <Link href="/messages" className="active-nav">
             الرسائل {unreadTotal > 0 && <b>{unreadTotal}</b>}
           </Link>
-          <Link href="/profile">البروفايل</Link>
+          <Link href="/profile">الملف الشخصي</Link>
         </div>
         <Link href="/profile" className="button ghost small-dark">
           حسابي
@@ -142,7 +142,7 @@ export default function MessagesClient({
           <div>
             <p className="eyebrow">مساحتك الخاصة</p>
             <h1>الرسائل</h1>
-            <p>كل تبادل حقيقي بيبدأ بكلمة.</p>
+            <p>كل تبادل حقيقي يبدأ بكلمة.</p>
           </div>
           <div className="messages-search">
             <Search size={17} />
@@ -171,7 +171,7 @@ export default function MessagesClient({
             {conversations.length === 0 && (
               <div className="empty-hint">
                 <MessageCircle size={21} />
-                <p>لسه معملتش أي محادثة. ابدأ واحدة من صفحة استكشف.</p>
+                <p>لم تُجرِ أي محادثة بعد. ابدأ محادثة من صفحة الاستكشاف.</p>
                 <Link href="/explore">
                   استكشف المهارات <ChevronRight size={14} />
                 </Link>
@@ -187,7 +187,7 @@ export default function MessagesClient({
                     <h2>{active.otherName}</h2>
                   </div>
                   <Link href={`/profile?user=${active.otherId}`} className="thread-profile">
-                    رؤية البروفايل <UserRound size={16} />
+                    رؤية الملف الشخصي <UserRound size={16} />
                   </Link>
                 </header>
                 {active.skillTitle && (
@@ -224,7 +224,7 @@ export default function MessagesClient({
             ) : (
               <div className="empty-hint">
                 <MessageCircle size={21} />
-                <p>اختار محادثة من القائمة أو ابدأ وحدة جديدة من صفحة استكشف.</p>
+                <p>اختر محادثة من القائمة أو ابدأ محادثة جديدة من صفحة الاستكشاف.</p>
                 <Link href="/explore">
                   استكشف المهارات <ChevronRight size={14} />
                 </Link>

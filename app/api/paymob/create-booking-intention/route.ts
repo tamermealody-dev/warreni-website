@@ -5,7 +5,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 function splitName(fullName: string) {
   const parts = fullName.trim().split(/\s+/).filter(Boolean);
   return {
-    firstName: parts[0] || "Warreeni",
+    firstName: parts[0] || "Allemni",
     lastName: parts.slice(1).join(" ") || "User",
   };
 }
@@ -86,7 +86,7 @@ export async function POST(request: Request) {
     ]);
     if (!booking || booking.requester_id !== user.id)
       return NextResponse.json(
-        { error: "مش مسموح لك تدفع للجلسة دي." },
+        { error: "غير مسموح لك تدفع للجلسة هذه." },
         { status: 403 },
       );
     if (booking.status !== "accepted")
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
       );
     if (booking.payment_method !== "money")
       return NextResponse.json(
-        { error: "الجلسة دي مدفوعة بالساعات." },
+        { error: "هذه الجلسة مدفوعة بالساعات." },
         { status: 400 },
       );
 
@@ -140,7 +140,7 @@ export async function POST(request: Request) {
     }
 
     const { firstName, lastName } = splitName(
-      profile?.full_name || user.user_metadata?.full_name || "عضو ورّيني",
+      profile?.full_name || user.user_metadata?.full_name || "عضو علّمني",
     );
     const amount = Math.round(Number(booking.amount_egp) * 100);
     if (!Number.isFinite(amount) || amount <= 0)
@@ -161,7 +161,7 @@ export async function POST(request: Request) {
         payment_methods: [integrationId],
         items: [
           {
-            name: `ورّيني - جلسة ${booking.hours} ساعة`,
+            name: `علّمني - جلسة ${booking.hours} ساعة`,
             amount,
             description: "جلسة مهارة مدفوعة",
             quantity: 1,
@@ -237,6 +237,6 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("create-booking-intention error:", error);
-    return NextResponse.json({ error: "حصل خطأ غير متوقع." }, { status: 500 });
+    return NextResponse.json({ error: "حدث خطأ غير متوقع." }, { status: 500 });
   }
 }

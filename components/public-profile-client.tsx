@@ -21,7 +21,7 @@ export default function PublicProfileClient({ data }: { data: PublicProfileData 
   return (
     <main className="public-profile-page" dir="rtl">
       <header className="profile-nav">
-        <Link href="/" className="logo"><span><Clock3 size={19} /></span>ورّيني</Link>
+        <Link href="/" className="logo"><span><Clock3 size={19} /></span>علّمني</Link>
         <div className="profile-nav-actions">
           <Link href="/messages" className="button outline"><MessageCircle size={15} /> الرسائل</Link>
           <Link href="/explore" className="button outline">استكشف <ArrowLeft size={15} /></Link>
@@ -32,7 +32,7 @@ export default function PublicProfileClient({ data }: { data: PublicProfileData 
         <div className="profile-hero-glow" />
         {data.avatarUrl ? <img className="profile-avatar profile-avatar-image" src={data.avatarUrl} alt={data.fullName} /> : <div className={`profile-avatar ${toneOf(data.fullName)}`}>{initialsOf(data.fullName)}</div>}
         <div className="profile-intro">
-          <div className="eyebrow">ملف عضو في ورّيني</div>
+          <div className="eyebrow">ملف عضو في علّمني</div>
           <h1>{data.fullName}</h1>
           <p>
             {data.city && <><MapPin size={15} /> {data.city} <span>•</span></>}
@@ -47,21 +47,21 @@ export default function PublicProfileClient({ data }: { data: PublicProfileData 
       <section className="public-profile-content">
         <article className="profile-card">
           <div className="card-heading"><div><p className="eyebrow">عن الشخص</p><h2>نبذة</h2></div></div>
-          <p className="profile-bio">{data.bio || 'العضو ده لسه ماكتبش نبذة عن نفسه.'}</p>
+          <p className="profile-bio">{data.bio || 'لم يكتب هذا العضو نبذة عن نفسه بعد.'}</p>
         </article>
 
         <article className="profile-card">
-          <div className="card-heading"><div><p className="eyebrow">اللي بيشاركه</p><h2>المهارات</h2></div></div>
+          <div className="card-heading"><div><p className="eyebrow">ما يشاركه</p><h2>المهارات</h2></div></div>
           {data.skills.length ? (
             <div className="public-skill-list">
               {data.skills.map((skill) => <div className="public-skill-row" key={skill.id}><b>{skill.title}</b><span>{CATEGORY_LABELS[skill.category] ?? skill.category}</span></div>)}
             </div>
-          ) : <p className="empty-hint">مفيش مهارات مضافة لسه.</p>}
+          ) : <p className="empty-hint">لا توجد مهارات مضافة بعد.</p>}
         </article>
 
         <article className="profile-card public-trust-card">
           <div className="public-trust-item"><Star size={19} fill="currentColor" /><strong>{rating}</strong><span>{arNumber(data.reviewCount, 0)} تقييم</span></div>
-          <div className="public-trust-item"><ShieldCheck size={19} /><strong>عضو</strong><span>في مجتمع ورّيني</span></div>
+          <div className="public-trust-item"><ShieldCheck size={19} /><strong>عضو</strong><span>في مجتمع علّمني</span></div>
           <Link href={`/explore?person=${data.id}`} className="button primary">ابدأ طلب تبادل <ArrowLeft size={16} /></Link>
         </article>
       </section>

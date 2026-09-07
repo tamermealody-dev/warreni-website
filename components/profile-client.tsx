@@ -173,7 +173,7 @@ function WalletDrawer({
         <div className="transaction-list">
           {ledger.length === 0 && (
             <p className="empty-hint">
-              لسه معملتش أي تبادل. أول تبادل بتخلصه هيظهر هنا.
+              لم تُجرِ أي تبادل بعد. سيظهر أول تبادل تنجزه هنا.
             </p>
           )}
           {ledger.map((t) => (
@@ -244,15 +244,15 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
     requestTab === "incoming" ? data.incomingRequests : data.outgoingRequests;
 
   async function uploadAvatar(file: File) {
-    if (!file.type.startsWith("image/")) throw new Error("اختار صورة بس.");
+    if (!file.type.startsWith("image/")) throw new Error("اختر صورة فقط.");
     if (file.size > 5 * 1024 * 1024)
-      throw new Error("الصورة لازم تكون أقل من 5 ميجا.");
+      throw new Error("يجب أن تكون الصورة أقل من 5 ميجا.");
     const supabase = createClient();
     const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    if (!user) throw new Error("لازم تسجّل دخول الأول.");
+    if (!user) throw new Error("يجب تسجيل الدخول أولًا.");
     const path = `${user.id}/${crypto.randomUUID()}.${ext}`;
     const { error } = await supabase.storage
       .from("avatars")
@@ -279,7 +279,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
         router.refresh();
       } catch (err) {
         setActionError(
-          err instanceof Error ? err.message : "حصلت مشكلة، حاول تاني.",
+          err instanceof Error ? err.message : "حدثت مشكلة، حاول مرة أخرى.",
         );
       }
     });
@@ -312,7 +312,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
   function handleSubmitReview(bookingId: string) {
     const rating = reviewRatings[bookingId] ?? 0;
     if (rating < 1 || rating > 5) {
-      setActionError("اختار تقييم من نجمة لحد 5 نجوم.");
+      setActionError("اختر تقييمًا من نجمة إلى خمس نجوم.");
       return;
     }
     runAction(async () => {
@@ -338,7 +338,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
     if (!active || active.paymentMethod !== "money" || !paymentMethodChoice)
       return;
     if (!/^01\d{9}$/.test(paymentPhone.trim().replace(/[\s()-]/g, ""))) {
-      setActionError("اكتب رقم الموبايل اللي حوّلت منه (01xxxxxxxxx).");
+      setActionError("اكتب رقم الهاتف المحمول الذي حوّلت منه (01xxxxxxxxx).");
       return;
     }
     setActionError(null);
@@ -358,7 +358,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
       router.refresh();
     } catch (err) {
       setActionError(
-        err instanceof Error ? err.message : "حصلت مشكلة في إرسال طلب الدفع.",
+        err instanceof Error ? err.message : "حدثت مشكلة في إرسال طلب الدفع.",
       );
     } finally {
       setPaymentLoading(false);
@@ -374,7 +374,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
 
   function handleAddSkill() {
     if (!skillTitle.trim()) {
-      setActionError("اكتب اسم المهارة الأول.");
+      setActionError("أدخل اسم المهارة أولًا.");
       return;
     }
     runAction(async () => {
@@ -527,7 +527,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
           <span>
             <Clock3 size={19} />
           </span>
-          ورّيني
+          علّمني
         </Link>
         <div className="profile-nav-actions">
           <Link href="/sessions" className="button ghost small-dark">
@@ -551,7 +551,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                     setActionError(
                       err instanceof Error
                         ? err.message
-                        : "حصلت مشكلة في الإشعارات.",
+                        : "حدثت مشكلة في الإشعارات.",
                     );
                   }
                 });
@@ -590,7 +590,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                   </div>
                 ))
               ) : (
-                <p className="empty-hint">مفيش إشعارات لسه.</p>
+                <p className="empty-hint">لا توجد إشعارات بعد.</p>
               )}
             </div>
           )}
@@ -632,7 +632,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
         </div>
         <div className="profile-intro">
           <div className="eyebrow">ملفك الشخصي</div>
-          <h1>أهلاً يا {data.fullName.split(" ")[0]}</h1>
+          <h1>أهلًا يا {data.fullName.split(" ")[0]}</h1>
           <p>
             {data.city && (
               <>
@@ -700,8 +700,8 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
             {visibleRequests.length === 0 && (
               <p className="empty-hint">
                 {requestTab === "incoming"
-                  ? "مفيش طلبات واردة دلوقتي."
-                  : "مفيش طلبات صادرة دلوقتي. جرب تستكشف مهارات جديدة."}
+                  ? "لا توجد طلبات واردة حاليًا."
+                  : "لا توجد طلبات صادرة حاليًا. جرّب استكشاف مهارات جديدة."}
               </p>
             )}
             {visibleRequests.map((r) => (
@@ -777,7 +777,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                   style={{ alignSelf: "flex-start", marginBottom: 8 }}
                   disabled={pending}
                   onClick={() => {
-                    if (!confirm("متأكد إنك عايز تنهي/تلغي الجلسة دي؟"))
+                    if (!confirm("هل أنت متأكد من رغبتك في إنهاء/إلغاء هذه الجلسة؟"))
                       return;
                     runAction(() =>
                       cancelAcceptedBooking(data.activeSession!.bookingId),
@@ -789,7 +789,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
               )}
               <p>
                 الجلسة مدتها {arNumber(data.activeSession.hours)}{" "}
-                {data.activeSession.hours === 1 ? "ساعة" : "ساعات"}، وبتبدأ فقط
+                {data.activeSession.hours === 1 ? "ساعة" : "ساعات"}، وتبدأ فقط
                 بعد موافقة الطرفين.
               </p>
               {data.activeSession.paymentMethod === "money" && (
@@ -819,11 +819,11 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                 data.activeSession.paymentStatus !== "released" &&
                 data.activeSession.paymentStatus !== "awaiting_review" && (
                   <div className="session-payment-action">
-                    <strong>الدفع مطلوب قبل دخول الجلسة</strong>
+                    <strong>يلزم الدفع قبل دخول الجلسة</strong>
                     <p>
                       حوّل قيمة الجلسة عبر Instapay أو فودافون كاش وأكّد
-                      التحويل تحت. بمجرد ما نراجعها، الغرفة هتفتح تلقائيًا.
-                      المبلغ يفضل Pending لمقدم الخدمة لحد نهاية الجلسة.
+                      التحويل تحت. بمجرد مراجعتها، ستُفتح الغرفة تلقائيًا.
+                      يبقى المبلغ معلّقًا لمقدم الخدمة حتى نهاية الجلسة.
                     </p>
                     <div className="method-grid session-method-grid">
                       {MANUAL_PAYMENT_METHODS.map((m) => (
@@ -834,7 +834,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                           onClick={() => setPaymentMethodChoice(m.id)}
                         >
                           <strong>{m.name}</strong>
-                          <span>اختار</span>
+                          <span>اختر</span>
                         </button>
                       ))}
                     </div>
@@ -859,7 +859,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                               )
                             }
                           >
-                            <Copy size={14} /> {copiedHandle ? "اتنسخ" : "نسخ"}
+                            <Copy size={14} /> {copiedHandle ? "تم النسخ" : "نسخ"}
                           </button>
                         </div>
                         <input
@@ -870,9 +870,9 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                             )
                           }
                           inputMode="tel"
-                          placeholder="رقم الموبايل اللي حوّلت منه: 01xxxxxxxxx"
+                          placeholder="رقم الهاتف المحمول الذي حوّلت منه: 01xxxxxxxxx"
                           autoComplete="tel"
-                          aria-label="رقم الموبايل للدفع"
+                          aria-label="رقم الهاتف المحمول للدفع"
                         />
                         <button
                           className="button primary"
@@ -886,7 +886,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                             </>
                           ) : (
                             <>
-                              أكدت تحويل {arNumber(data.activeSession.amountEgp ?? 0)}{" "}
+                              أكّدت تحويل {arNumber(data.activeSession.amountEgp ?? 0)}{" "}
                               جنيه <ArrowLeft size={15} />
                             </>
                           )}
@@ -900,9 +900,9 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                 data.activeSession.paymentStatus === "awaiting_review" && (
                   <div className="session-payment-action">
                     <ClipboardCheck size={18} />
-                    <strong>استلمنا طلب الدفع، جاري المراجعة</strong>
+                    <strong>تم استلام طلب الدفع، جاري المراجعة</strong>
                     <p>
-                      هنراجع التحويل ونفتح الغرفة تلقائيًا بعد التأكيد.
+                      سنراجع التحويل، وستُفتح الغرفة تلقائيًا بعد التأكيد.
                       {data.activeSession.referenceCode
                         ? ` رقم الطلب: ${data.activeSession.referenceCode}`
                         : ""}
@@ -914,10 +914,10 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                 data.activeSession.paymentStatus !== "paid" &&
                 data.activeSession.paymentStatus !== "released" && (
                   <div className="session-payment-action">
-                    <strong>الدفع لسه Pending</strong>
+                    <strong>الدفع ما زال معلّقًا</strong>
                     <p>
-                      مستحقاتك هتفضل معلّقة لحد ما الدفع يتأكد، وبعد انتهاء
-                      الجلسة تستحق لك 92% من قيمة العملية.
+                      مستحقاتك ستظل معلّقة حتى يتم تأكيد الدفع، وبعد انتهاء
+                      الجلسة تصبح مستحقة لك 92% من قيمة العملية.
                     </p>
                   </div>
                 )}
@@ -925,7 +925,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                 (data.activeSession.paymentStatus === "paid" ||
                   data.activeSession.paymentStatus === "released") && (
                   <div className="session-paid-box">
-                    <CheckCircle2 size={18} /> الدفع مؤكد — مستنيين موافقة
+                    <CheckCircle2 size={18} /> الدفع مؤكد — بانتظار موافقة
                     البداية من الطرفين.
                   </div>
                 )}
@@ -944,14 +944,14 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                             router.push(`/sessions/${result.sessionId}`);
                           else if (result.status === "insufficient_balance")
                             setActionError(
-                              "الطرف اللي طلب الجلسة رصيد ساعاته مش كافي دلوقتي، لازم يشحن رصيده الأول عشان الغرفة تتفتح.",
+                              "رصيد ساعات الطرف الذي طلب الجلسة غير كافٍ الآن، ويجب أن يشحن رصيده أولًا لكي تُفتح الغرفة.",
                             );
                           else router.refresh();
                         } catch (e) {
                           setActionError(
                             e instanceof Error
                               ? e.message
-                              : "حصلت مشكلة في بدء الجلسة.",
+                              : "حدثت مشكلة في بدء الجلسة.",
                           );
                         }
                       })
@@ -963,7 +963,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                         الموافقة...
                       </>
                     ) : (
-                      "موافقة على بدء الجلسة"
+                      "الموافقة على بدء الجلسة"
                     )}
                   </button>
                 )}
@@ -971,13 +971,13 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                 data.activeSession.startApproved && (
                   <div className="pending-confirm">
                     <CheckCircle2 size={25} />
-                    <strong>موافقتك اتسجلت</strong>
+                    <strong>تم تسجيل موافقتك</strong>
                     <small>
                       {!data.activeSession.otherStartApproved
-                        ? "مستنيين موافقة الطرف الآخر. أول ما يوافق هتتحوّل تلقائيًا لغرفة الجلسة."
+                        ? "بانتظار موافقة الطرف الآخر. بمجرد أن يوافق ستتحوّل تلقائيًا لغرفة الجلسة."
                         : data.activeSession.insufficientBalance
-                          ? "الطرفين وافقوا، بس رصيد ساعات صاحب الطلب مش كافي دلوقتي فمش قادر يفتح الغرفة. لازم يشحن رصيده الأول."
-                          : "بيتم تجهيز الغرفة..."}
+                          ? "وافق الطرفان، لكن رصيد ساعات صاحب الطلب غير كافٍ الآن، لذلك لا يمكن فتح الغرفة. يجب أن يشحن رصيده أولًا."
+                          : "جارٍ تجهيز الغرفة..."}
                     </small>
                     {data.activeSession.otherStartApproved && (
                       <button
@@ -995,14 +995,14 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                                 router.push(`/sessions/${result.sessionId}`);
                               else if (result.status === "insufficient_balance")
                                 setActionError(
-                                  "الطرف اللي طلب الجلسة رصيد ساعاته مش كافي دلوقتي، لازم يشحن رصيده الأول عشان الغرفة تتفتح.",
+                                  "رصيد ساعات الطرف الذي طلب الجلسة غير كافٍ الآن، ويجب أن يشحن رصيده أولًا لكي تُفتح الغرفة.",
                                 );
                               else router.refresh();
                             } catch (e) {
                               setActionError(
                                 e instanceof Error
                                   ? e.message
-                                  : "حصلت مشكلة في تحديث الحالة.",
+                                  : "حدثت مشكلة في تحديث الحالة.",
                               );
                             }
                           })
@@ -1045,14 +1045,14 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                         )
                       }
                     >
-                      أيوه، اتمت
+                      نعم، اكتملت
                     </button>
                     <button
                       className="danger-outline"
                       disabled={pending}
                       onClick={() => setShowIssueForm(true)}
                     >
-                      لأ، فيه مشكلة
+                      لا، هناك مشكلة
                     </button>
                   </div>
                 )}
@@ -1061,7 +1061,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                   <label>
                     اشرح لنا المشكلة
                     <textarea
-                      placeholder="اكتب تفاصيل بسيطة عن اللي حصل..."
+                      placeholder="اكتب تفاصيل بسيطة عن الذي حدث..."
                       value={issueNote}
                       onChange={(e) => setIssueNote(e.target.value)}
                     />
@@ -1087,7 +1087,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                   <CheckCircle2 size={25} />
                   <strong>بانتظار تأكيد الطرف الآخر</strong>
                   <small>
-                    لو محدش رد خلال ٤٨ ساعة، هيتم تأكيد الجلسة تلقائيًا
+                    إذا لم يرد أحد خلال 48 ساعة، فسيتم تأكيد الجلسة تلقائيًا
                   </small>
                 </div>
               )}
@@ -1104,7 +1104,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
             </div>
             {data.reviewItems.length === 0 ? (
               <p className="empty-hint">
-                لما تكمّل أول جلسة، هتقدر تقيّم الطرف التاني من هنا.
+                عندما تُكمل أول جلسة، ستتمكن من تقييم الطرف الآخر هنا.
               </p>
             ) : (
               data.reviewItems.map((item) => (
@@ -1184,8 +1184,8 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
               <div className="card-heading">
                 <AlertTriangle size={18} />
                 <h2 style={{ fontSize: 15 }}>
-                  عندك {arNumber(data.disputedCount, 0)} جلسة قيد المراجعة بسبب
-                  بلاغ. هنراجعها ونرد عليك قريب.
+                  لديك {arNumber(data.disputedCount, 0)} جلسة قيد المراجعة بسبب
+                  بلاغ. سنراجعها ونرد عليك قريبًا.
                 </h2>
               </div>
             </article>
@@ -1239,7 +1239,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
             )}
             {data.skills.length === 0 ? (
               <p className="empty-hint">
-                لسه معملتش أي مهارة. ضيف أول مهارة بتاعتك دلوقتي.
+                لم تُضف أي مهارة بعد. أضف مهارتك الأولى الآن.
               </p>
             ) : (
               <div className="skill-pills">
@@ -1309,13 +1309,13 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
           <article className="profile-card community-card">
             <Users size={20} />
             <h3>أنت جزء من شيء جميل</h3>
-            <p>كل ساعة بتشاركها بتفتح باب جديد لحد تاني.</p>
+            <p>كل ساعة تشاركها تفتح لك بابًا جديدًا.</p>
           </article>
         </aside>
       </section>
 
       <footer className="profile-footer">
-        <span>© ٢٠٢٦ ورّيني</span>
+        <span>© 2026 علّمني</span>
         <span>
           <MessageCircle size={13} /> مجتمعك، وقتك، حكايتك
         </span>
@@ -1341,7 +1341,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
             <div className="drawer-head">
               <div>
                 <p className="eyebrow">تحديث بياناتك</p>
-                <h2>تعديل البروفايل</h2>
+                <h2>تعديل الملف الشخصي</h2>
               </div>
               <button
                 className="icon-button"
@@ -1357,7 +1357,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                   <img
                     className="profile-avatar profile-avatar-image"
                     src={profileAvatar}
-                    alt="صورة البروفايل"
+                    alt="صورة الملف الشخصي"
                   />
                 ) : (
                   <div className={`profile-avatar ${toneOf(profileName)}`}>
@@ -1365,7 +1365,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                   </div>
                 )}
                 <label className="avatar-upload-label">
-                  صورة البروفايل
+                  صورة الملف الشخصي
                   <input
                     type="file"
                     accept="image/*"
@@ -1396,7 +1396,7 @@ export default function ProfileClient({ data }: { data: ProfileData }) {
                   value={profileBio}
                   onChange={(e) => setProfileBio(e.target.value)}
                   maxLength={500}
-                  placeholder="قول للناس بتحب تتعلم أو تشارك إيه..."
+                  placeholder="أخبر الآخرين بما ترغب في تعلّمه أو مشاركته..."
                 />
               </label>
               <div className="modal-actions">

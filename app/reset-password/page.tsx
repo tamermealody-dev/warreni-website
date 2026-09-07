@@ -24,8 +24,8 @@ export default function ResetPasswordPage() {
   async function submit(e: FormEvent) {
     e.preventDefault()
     setError(null)
-    if (password.length < 6) return setError('كلمة المرور لازم تكون ٦ حروف/أرقام على الأقل.')
-    if (password !== confirm) return setError('كلمتا المرور مش متطابقين.')
+    if (password.length < 6) return setError('كلمة المرور يجب أن تكون 6 حروف/أرقام على الأقل.')
+    if (password !== confirm) return setError('كلمتا المرور غير متطابقين.')
 
     setLoading(true)
     const supabase = createClient()
@@ -33,7 +33,7 @@ export default function ResetPasswordPage() {
     setLoading(false)
 
     if (error) {
-      setError('رابط إعادة الضبط انتهت صلاحيته أو حصل خطأ. اطلب رابط جديد.')
+      setError('رابط إعادة الضبط انتهت صلاحيته أو حدث خطأ. اطلب رابطًا جديدًا.')
       return
     }
     setDone(true)
@@ -43,14 +43,14 @@ export default function ResetPasswordPage() {
     <main className="auth-page" dir="rtl">
       <div className="auth-art"><div className="auth-orbit" /><div className="auth-clock"><Clock3 size={78} /><span>وقتُك<br />قيمتك</span></div></div>
       <div className="auth-panel">
-        <Link href="/" className="logo"><span><Clock3 size={19} /></span>ورّيني</Link>
+        <Link href="/" className="logo"><span><Clock3 size={19} /></span>علّمني</Link>
         {done ? (
-          <div className="auth-form"><div className="success"><span><CheckCircle2 size={30} /></span><h2>اتغيرت كلمة المرور</h2><p>تمام، كلمة المرور الجديدة اتسجلت.</p><button className="button primary" onClick={() => router.push('/login')}>تسجيل الدخول <ArrowLeft size={17} /></button></div></div>
+          <div className="auth-form"><div className="success"><span><CheckCircle2 size={30} /></span><h2>تم تغيير كلمة المرور</h2><p>حسنًا، تم تسجيل كلمة المرور الجديدة.</p><button className="button primary" onClick={() => router.push('/login')}>تسجيل الدخول <ArrowLeft size={17} /></button></div></div>
         ) : (
           <form className="auth-form" onSubmit={submit}>
             <p className="eyebrow">إعادة ضبط</p>
-            <h1>اختار كلمة مرور جديدة.</h1>
-            {!ready && <p className="auth-sub">لو فتحت الصفحة من غير رابط الإيميل، اطلب رابط إعادة ضبط جديد.</p>}
+            <h1>اختر كلمة مرور جديدة.</h1>
+            {!ready && <p className="auth-sub">إذا فتحت الصفحة من دون رابط البريد الإلكتروني، اطلب رابط إعادة ضبط جديد.</p>}
             {error && <p className="auth-error">{error}</p>}
             <label>كلمة المرور الجديدة<div className="password"><input type={show ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} minLength={6} required placeholder="••••••••" /><button type="button" onClick={() => setShow(!show)}>{show ? <EyeOff size={18} /> : <Eye size={18} />}</button></div></label>
             <label>تأكيد كلمة المرور<input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} minLength={6} required placeholder="••••••••" /></label>

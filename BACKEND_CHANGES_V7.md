@@ -1,4 +1,4 @@
-# Warreeni v7 changes
+# Allemni v7 changes
 
 - Fixed profile name persistence by syncing `profiles.full_name`, `profiles.displayname`, and Supabase Auth metadata (`displayname`, `display_name`, `full_name`).
 - Added migration `006_profile_displayname_and_notifications.sql` to add/backfill `displayname`, keep it synchronized, update the signup trigger, and provide a secure notification-read RPC.

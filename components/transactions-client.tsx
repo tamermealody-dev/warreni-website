@@ -35,14 +35,14 @@ export default function TransactionsClient({
   function downloadStatement() {
     setDownloading(true)
     try {
-      const header = ['التاريخ', 'الطرف التاني', 'المهارة', 'الساعات', 'الحالة']
+      const header = ['التاريخ', 'الطرف الآخر', 'المهارة', 'الساعات', 'الحالة']
       const lines = visible.map((row) => [row.date, row.otherName, row.skillTitle ?? 'تبادل مهارات', `${row.positive ? '+' : '-'}${row.hours}`, row.pending ? 'معلّق' : 'مكتمل'])
       const csv = '\ufeff' + [header, ...lines].map((line) => line.map((cell) => `\"${String(cell).replaceAll('\"', '\"\"')}\"`).join(',')).join('\n')
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' })
       const url = URL.createObjectURL(blob)
       const anchor = document.createElement('a')
       anchor.href = url
-      anchor.download = `warreeni-statement-${new Date().toISOString().slice(0, 10)}.csv`
+      anchor.download = `allemni-statement-${new Date().toISOString().slice(0, 10)}.csv`
       document.body.appendChild(anchor)
       anchor.click()
       anchor.remove()
@@ -66,10 +66,10 @@ export default function TransactionsClient({
           <span>
             <Clock3 size={19} />
           </span>
-          ورّيني
+          علّمني
         </Link>
         <Link href="/profile" className="button outline">
-          <ArrowRight size={15} /> العودة للبروفايل
+          <ArrowRight size={15} /> العودة للملف شخصي
         </Link>
       </header>
       <section className="transactions-hero">
@@ -128,7 +128,7 @@ export default function TransactionsClient({
         <div className="transactions-table">
           <div className="transaction-table-head">
             <span>التاريخ</span>
-            <span>الطرف التاني</span>
+            <span>الطرف الآخر</span>
             <span>المهارة</span>
             <span>الساعات</span>
             <span>الحالة</span>
@@ -149,19 +149,19 @@ export default function TransactionsClient({
           ))}
           {visible.length === 0 && (
             <div className="transaction-table-row">
-              <span style={{ gridColumn: '1 / -1', color: 'var(--muted-foreground)' }}>مفيش عمليات في القسم ده لسه.</span>
+              <span style={{ gridColumn: '1 / -1', color: 'var(--muted-foreground)' }}>لا توجد عمليات في هذا القسم بعد.</span>
             </div>
           )}
         </div>
         <div className="transactions-note">
           <Clock3 size={18} />
-          <span>كل تبادل بيحافظ على قيمة وقتك. الرصيد بيتحدث بعد تأكيد الطرفين.</span>
+          <span>كل تبادل يحافظ على قيمة وقتك. يتحدّث الرصيد بعد تأكيد الطرفين.</span>
         </div>
       </section>
       <footer className="profile-footer">
-        <span>© ٢٠٢٦ ورّيني</span>
+        <span>© 2026 علّمني</span>
         <Link href="/profile">
-          العودة للبروفايل <ArrowLeft size={14} />
+          العودة للملف شخصي <ArrowLeft size={14} />
         </Link>
       </footer>
     </main>

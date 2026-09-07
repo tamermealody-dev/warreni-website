@@ -1,4 +1,4 @@
--- Warreeni: profile avatar storage + safe review constraints.
+-- Allemni: profile avatar storage + safe review constraints.
 
 -- Public avatar bucket. Files are stored as <user_id>/<filename>.
 insert into storage.buckets (id, name, public)

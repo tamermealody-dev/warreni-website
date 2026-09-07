@@ -1,4 +1,4 @@
--- Warreeni: keep displayname synchronized with the profile name.
+-- Allemni: keep displayname synchronized with the profile name.
 -- Safe to run once after the existing migrations.
 
 alter table public.profiles

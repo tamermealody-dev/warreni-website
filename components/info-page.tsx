@@ -11,7 +11,7 @@ export default function InfoPage({ eyebrow, title, intro, sections, children }: 
   return (
     <main dir="rtl" className="info-page">
       <nav className="info-nav container">
-        <Link href="/" className="logo"><span><Clock3 size={18} /></span>ورّيني</Link>
+        <Link href="/" className="logo"><span><Clock3 size={18} /></span>علّمني</Link>
         <div className="info-nav-links">
           <Link href="/explore">استكشف</Link>
           <Link href="/plans">شحن الساعات</Link>
@@ -45,7 +45,7 @@ export default function InfoPage({ eyebrow, title, intro, sections, children }: 
       {children}
 
       <footer className="info-footer container">
-        <span>© ٢٠٢٦ ورّيني</span>
+        <span>© 2026 علّمني</span>
         <div>
           <Link href="/help">مركز المساعدة</Link>
           <Link href="/community-rules">قواعد المجتمع</Link>

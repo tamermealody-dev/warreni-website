@@ -1,4 +1,4 @@
--- Warreeni: reliable profile updates and message-read tracking
+-- Allemni: reliable profile updates and message-read tracking
 -- This migration does not grant clients direct UPDATE access to messages.
 
 create or replace function public.update_my_profile(

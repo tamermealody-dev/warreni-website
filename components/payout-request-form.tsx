@@ -16,7 +16,7 @@ export default function PayoutRequestForm({ balance }: { balance: number }) {
     setError(null)
     const value = Number(amount)
     if (!Number.isFinite(value) || value <= 0) {
-      setError('اكتب مبلغ سحب صحيح.')
+      setError('أدخل مبلغ سحب صحيحًا.')
       return
     }
     if (value > balance) {
@@ -27,9 +27,9 @@ export default function PayoutRequestForm({ balance }: { balance: number }) {
       try {
         await requestPayout(value)
         setAmount('')
-        setMessage('تم إرسال طلب السحب. المبلغ اتخصم من الرصيد المتاح وبقى محجوز لحد معالجة الطلب.')
+        setMessage('تم إرسال طلب السحب. تم خصم المبلغ من الرصيد المتاح وأصبح محجوزًا حتى معالجة الطلب.')
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'حصلت مشكلة، حاول تاني.')
+        setError(err instanceof Error ? err.message : 'حدثت مشكلة، حاول مرة أخرى.')
       }
     })
   }
@@ -49,12 +49,12 @@ export default function PayoutRequestForm({ balance }: { balance: number }) {
           <input value={amount} onChange={(e) => setAmount(e.target.value)} type="number" min="0.01" step="0.01" max={balance} placeholder="مثال: 100" inputMode="decimal" disabled={pending} />
         </label>
         <button className="button primary" disabled={pending || balance <= 0} type="submit">
-          {pending ? <><LoaderCircle size={16} className="spin" /> جاري الإرسال...</> : <><Send size={16} /> طلب السحب</>}
+          {pending ? <><LoaderCircle size={16} className="spin" /> جارٍ الإرسال...</> : <><Send size={16} /> طلب السحب</>}
         </button>
       </div>
       {message && <p className="payout-status success">{message}</p>}
       {error && <p className="payout-status error">{error}</p>}
-      <small className="payout-request-note">بعد إرسال الطلب، الرصيد ده بيتحجز ومينفعش يتسحب مرة تانية. لو الطلب اترفض، المبلغ يرجع تلقائيًا لرصيدك.</small>
+      <small className="payout-request-note">بعد إرسال الطلب، يُحجز هذا الرصيد ولا يمكن سحبه مرة أخرى. إذا رُفض الطلب، المبلغ يُعاد تلقائيًا لرصيدك.</small>
     </form>
   )
 }

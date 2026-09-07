@@ -1,4 +1,4 @@
--- Warreeni: fix notification trigger RLS errors
+-- Allemni: fix notification trigger RLS errors
 -- Run this ONLY if 001-003 are already applied.
 -- This does NOT grant clients INSERT access to notifications.
 

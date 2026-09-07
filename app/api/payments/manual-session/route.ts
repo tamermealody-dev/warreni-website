@@ -42,6 +42,6 @@ export async function POST(request: Request) {
     })
   } catch (error) {
     console.error('manual session payment error:', error)
-    return NextResponse.json({ error: 'حصل خطأ غير متوقع.' }, { status: 500 })
+    return NextResponse.json({ error: 'حدث خطأ غير متوقع.' }, { status: 500 })
   }
 }

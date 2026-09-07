@@ -49,7 +49,7 @@ const methodLabel: Record<'paymob' | 'instapay' | 'vodafone_cash', string> = {
 }
 
 function fmtDate(iso: string) {
-  return new Date(iso).toLocaleString('ar-EG', { dateStyle: 'medium', timeStyle: 'short' })
+  return new Date(iso).toLocaleString('ar-EG-u-nu-latn', { dateStyle: 'medium', timeStyle: 'short' })
 }
 
 type Tab = 'hours' | 'sessions' | 'events'
@@ -82,7 +82,7 @@ export default function AdminPaymentsPanel() {
       setSessionPayments(sessionsData.payments)
       setEvents(eventsData.events)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'حصل خطأ.')
+      setError(err instanceof Error ? err.message : 'حدث خطأ.')
     }
   }
 
@@ -105,7 +105,7 @@ export default function AdminPaymentsPanel() {
       if (!response.ok) throw new Error(data.error || 'تعذر تحديث الطلب.')
       setPurchases((prev) => (prev ? prev.filter((p) => p.id !== id) : prev))
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'حصل خطأ.')
+      setError(err instanceof Error ? err.message : 'حدث خطأ.')
     } finally {
       setBusyId(null)
     }
@@ -124,7 +124,7 @@ export default function AdminPaymentsPanel() {
       if (!response.ok) throw new Error(data.error || 'تعذر تحديث الطلب.')
       setSessionPayments((prev) => (prev ? prev.filter((p) => p.id !== id) : prev))
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'حصل خطأ.')
+      setError(err instanceof Error ? err.message : 'حدث خطأ.')
     } finally {
       setBusyId(null)
     }
@@ -181,7 +181,7 @@ export default function AdminPaymentsPanel() {
       {tab === 'hours' && (
         <>
           {purchases === null && <p className="admin-empty">جاري التحميل...</p>}
-          {purchases?.length === 0 && <p className="admin-empty">مفيش طلبات شحن محتاجة مراجعة دلوقتي 🎉</p>}
+          {purchases?.length === 0 && <p className="admin-empty">لا توجد طلبات شحن تحتاج إلى مراجعة حاليًا 🎉</p>}
           <div className="admin-list">
             {purchases?.map((p) => (
               <article key={p.id} className="admin-row">
@@ -194,7 +194,7 @@ export default function AdminPaymentsPanel() {
                   <div><small>الساعات</small><span>{p.hours}</span></div>
                   <div><small>كود الطلب</small><span>{p.reference_code || '—'}</span></div>
                   <div><small>حوّل من رقم</small><span>{p.sender_phone || '—'}</span></div>
-                  <div><small>رقم بروفايله</small><span>{p.profiles?.phone || '—'}</span></div>
+                  <div><small>رقم ملف شخصيه</small><span>{p.profiles?.phone || '—'}</span></div>
                   <div><small>التاريخ</small><span>{fmtDate(p.created_at)}</span></div>
                 </div>
                 <input
@@ -220,7 +220,7 @@ export default function AdminPaymentsPanel() {
       {tab === 'sessions' && (
         <>
           {sessionPayments === null && <p className="admin-empty">جاري التحميل...</p>}
-          {sessionPayments?.length === 0 && <p className="admin-empty">مفيش طلبات دفع جلسات محتاجة مراجعة دلوقتي 🎉</p>}
+          {sessionPayments?.length === 0 && <p className="admin-empty">لا توجد طلبات دفع جلسات تحتاج إلى مراجعة حاليًا 🎉</p>}
           <div className="admin-list">
             {sessionPayments?.map((p) => (
               <article key={p.id} className="admin-row">
@@ -234,7 +234,7 @@ export default function AdminPaymentsPanel() {
                   <div><small>مدة الجلسة</small><span>{p.bookings?.hours ?? '—'} ساعة</span></div>
                   <div><small>كود الطلب</small><span>{p.reference_code || '—'}</span></div>
                   <div><small>حوّل من رقم</small><span>{p.sender_phone || '—'}</span></div>
-                  <div><small>رقم بروفايل الدافع</small><span>{p.payer?.phone || '—'}</span></div>
+                  <div><small>رقم ملف شخصي الدافع</small><span>{p.payer?.phone || '—'}</span></div>
                   <div><small>التاريخ</small><span>{fmtDate(p.created_at)}</span></div>
                 </div>
                 <input
@@ -260,7 +260,7 @@ export default function AdminPaymentsPanel() {
       {tab === 'events' && (
         <>
           {events === null && <p className="admin-empty">جاري التحميل...</p>}
-          {events?.length === 0 && <p className="admin-empty">مفيش إشعارات لسه.</p>}
+          {events?.length === 0 && <p className="admin-empty">لا توجد إشعارات بعد.</p>}
           <div className="admin-list">
             {events?.map((e) => (
               <article key={e.id} className={`admin-event ${e.seen_at ? '' : 'unseen'}`}>
@@ -273,7 +273,7 @@ export default function AdminPaymentsPanel() {
                   <small>{fmtDate(e.created_at)}</small>
                 </div>
                 {!e.seen_at && (
-                  <button className="button outline small" onClick={() => ackEvent(e.id)}>تمام</button>
+                  <button className="button outline small" onClick={() => ackEvent(e.id)}>حسنًا</button>
                 )}
               </article>
             ))}

@@ -8,19 +8,19 @@ export type ManualPaymentMethod = {
   instructions: string
 }
 
-// ⚠️ عدّل القيم دي ببيانات الاستقبال الحقيقية بتاعتك قبل ما تنشر الموقع.
+// ⚠️ عدّل القيم هذه ببيانات الاستقبال الحقيقية بتاعتك قبل ما تنشر الموقع.
 export const MANUAL_PAYMENT_METHODS: ManualPaymentMethod[] = [
   {
     id: 'instapay',
     name: 'Instapay',
     handle: 'warreni-web1@instapay',
-    instructions: 'حوّل المبلغ على حساب Instapay وابعت نفس رقم التحويل في الخانة تحت.',
+    instructions: 'حوّل المبلغ إلى حساب Instapay وأدخل رقم التحويل نفسه في الخانة أدناه.',
   },
   {
     id: 'vodafone_cash',
     name: 'فودافون كاش',
     handle: '01055891861',
-    instructions: 'حوّل المبلغ على رقم محفظة فودافون كاش وابعت رقم الموبايل اللي حوّلت منه.',
+    instructions: 'حوّل المبلغ إلى رقم محفظة فودافون كاش وأدخل رقم الهاتف المحمول الذي حوّلت منه.',
   },
 ]
 

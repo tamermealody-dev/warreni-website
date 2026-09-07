@@ -31,7 +31,7 @@ export default function ContactForm() {
       if (!response.ok) throw new Error(data.error || 'تعذر إرسال الرسالة.')
 
       form.reset()
-      setStatus({ type: 'success', text: 'تم إرسال رسالتك بنجاح. سنراجعها ونتواصل معك عند الحاجة.' })
+      setStatus({ type: 'success', text: 'تم إرسال رسالتك بنجاح. سنراجعها ونتواصل معك عند المهارة.' })
     } catch (error) {
       setStatus({ type: 'error', text: error instanceof Error ? error.message : 'تعذر إرسال الرسالة.' })
     } finally {

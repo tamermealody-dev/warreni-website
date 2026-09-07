@@ -45,7 +45,7 @@ export default async function SessionRoomPage({ params }: { params: Promise<{ id
   const byId = new Map(((profiles ?? []) as Profile[]).map((p) => [p.id, p]))
 
   const otherId = ids.find((x) => x !== user.id)
-  if (!otherId) throw new Error('الغرفة لازم يكون فيها طرفين.')
+  if (!otherId) throw new Error('الغرفة يجب أن يكون فيها طرفين.')
 
   const room: SessionRoomData = {
     sessionId: session.id,
