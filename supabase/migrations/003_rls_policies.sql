@@ -1,5 +1,5 @@
 -- =========================================================
--- ورّيني (Warreeni) — Row Level Security (RLS) Policies
+-- علّمني (Allemni) — Row Level Security (RLS) Policies
 -- =========================================================
 -- Supabase enforces these directly in Postgres, so even if a bug in the
 -- frontend/API tries to overstep, the database itself blocks it.

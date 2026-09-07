@@ -356,7 +356,7 @@ export default function SessionRoom({
       if (status === "active") {
         window.history.pushState({ [lockKey]: true }, "", window.location.href);
         setError(
-          "ممنوع تخرج من الجلسة قبل انتهاء مدتها. لو قفلت المتصفح هتتقفل الجلسة تلقائيًا.",
+          "لا تغادر الجلسة قبل انتهاء مدتها. إذا أغلقت المتصفح، فستُغلق الجلسة تلقائيًا.",
         );
       }
     };
@@ -419,8 +419,8 @@ export default function SessionRoom({
       const name = e instanceof DOMException ? e.name : "";
       setError(
         name === "NotAllowedError" || name === "PermissionDeniedError"
-          ? "مرفوض إذن الكاميرا/الميكروفون. تقدر تشارك بالشات بس، أو تفتح إعدادات المتصفح وتسمح بالكاميرا لو غيّرت رأيك."
-          : "مافيش كاميرا أو ميكروفون متاح على الجهاز ده.",
+          ? "مرفوض إذن الكاميرا/الميكروفون. يمكنك المشاركة عبر الدردشة فقط، أو فتح إعدادات المتصفح والسماح بالكاميرا إذا غيّرت رأيك."
+          : "مافيش كاميرا أو ميكروفون متاح على الجهاز هذا.",
       );
     }
   }
@@ -467,14 +467,14 @@ export default function SessionRoom({
           <span>
             <Clock3 size={18} />
           </span>
-          ورّيني
+          علّمني
         </div>
         <div className="session-timer">
           <Clock3 size={16} />
           <strong dir="ltr">
             {mm}:{ss}
           </strong>
-          <small>{status === "active" ? "الجلسة شغالة" : "انتهت الجلسة"}</small>
+          <small>{status === "active" ? "الجلسة نشطة" : "انتهت الجلسة"}</small>
         </div>
       </header>
 
@@ -484,12 +484,12 @@ export default function SessionRoom({
             <div className="media-tile">
               <video ref={localVideoRef} autoPlay muted playsInline />
               <div className="media-label">
-                أنت {camera ? "• الكاميرا شغالة" : ""}
+                أنت {camera ? "• الكاميرا مفعّلة" : ""}
               </div>
               {!camera && (
                 <div className="media-placeholder">
                   <VideoOff size={30} />
-                  <span>الكاميرا مش شغالة</span>
+                  <span>الكاميرا غير مفعّلة</span>
                 </div>
               )}
             </div>
@@ -499,7 +499,7 @@ export default function SessionRoom({
               {!remoteStream?.getTracks().length && (
                 <div className="media-placeholder">
                   <VideoOff size={30} />
-                  <span>مستنيين الطرف الآخر يشارك الكاميرا</span>
+                  <span>بانتظار الطرف الآخر يشارك الكاميرا</span>
                 </div>
               )}
             </div>
@@ -533,8 +533,8 @@ export default function SessionRoom({
           <div className="session-notice">
             <strong>🔒 الجلسة خاصة</strong>
             <span>
-              الكاميرا ومشاركة الشاشة اختيارية وبموافقة المستخدم، ومباشرة بين
-              الطرفين من غير أي وسيط.
+              الكاميرا ومشاركة الشاشة اختياريتان وبموافقة المستخدم، ويتم الاتصال مباشرةً بين
+              الطرفين من دون أي وسيط.
             </span>
           </div>
 
@@ -546,14 +546,14 @@ export default function SessionRoom({
             <div>
               <p className="eyebrow">تواصل مباشر</p>
               <h2>
-                <MessageCircle size={18} /> شات الجلسة
+                <MessageCircle size={18} /> دردشة الجلسة
               </h2>
             </div>
             <span>{room.other.name}</span>
           </div>
           <div className="session-messages">
             {messages.length === 0 && (
-              <div className="empty-hint">ابدأوا الكلام هنا أثناء الجلسة.</div>
+              <div className="empty-hint">ابدأ المحادثة هنا أثناء الجلسة.</div>
             )}
             {messages.map((m) => (
               <div
@@ -590,15 +590,15 @@ export default function SessionRoom({
           <div>
             <Clock3 size={32} />
             <h2>
-              {status === "completed" ? "انتهى وقت الجلسة" : "الجلسة اتقفلت"}
+              {status === "completed" ? "انتهى وقت الجلسة" : "أُغلقت الجلسة"}
             </h2>
             <p>
               {status === "completed"
-                ? "الساعات اتحسبت تلقائيًا وأضيفت للطرف المستحق."
-                : "الجلسة اتقفلت لأن أحد الطرفين خرج من المتصفح، وتم رد الساعات المحجوزة."}
+                ? "حُسبت الساعات تلقائيًا وأُضيفت إلى رصيد الطرف المستحق."
+                : "أُغلقت الجلسة لأن أحد الطرفين غادر المتصفح، وأُعيدت الساعات المحجوزة."}
             </p>
             <Link href="/profile" className="button primary">
-              العودة للبروفايل
+              العودة للملف شخصي
             </Link>
           </div>
         </div>

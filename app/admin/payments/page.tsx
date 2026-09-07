@@ -20,7 +20,7 @@ export default async function AdminPaymentsPage() {
     <main className="admin-page" dir="rtl">
       <div className="admin-shell">
         <header className="admin-header">
-          <p className="eyebrow">ورّيني · لوحة تحكم</p>
+          <p className="eyebrow">علّمني · لوحة تحكم</p>
           <h1>مراجعة المدفوعات</h1>
         </header>
         {allowed ? (
@@ -28,8 +28,8 @@ export default async function AdminPaymentsPage() {
         ) : (
           <div className="admin-denied">
             <ShieldAlert size={32} />
-            <h2>مفيش صلاحية دخول</h2>
-            <p>الحساب ده ({user.email}) مش مسموح له بفتح الصفحة دي.</p>
+            <h2>لا يوجد صلاحية دخول</h2>
+            <p>الحساب هذا ({user.email}) غير مسموح له بفتح الصفحة هذه.</p>
           </div>
         )}
       </div>

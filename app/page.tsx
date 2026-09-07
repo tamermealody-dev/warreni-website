@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import WarreeniApp, { type HomePerson } from '@/components/warreeni-app'
+import AllemniApp, { type HomePerson } from '@/components/allemni-app'
 import { initialsOf, toneOf } from '@/lib/format'
 
 interface SkillRow {
@@ -58,12 +58,12 @@ export default async function Page() {
     return {
       id,
       name: profile.full_name,
-      role: group.skills[0]?.title ?? 'عضو في ورّيني',
+      role: group.skills[0]?.title ?? 'عضو في علّمني',
       city: profile.city ?? 'مصر',
       initials: initialsOf(profile.full_name),
       tone: toneOf(profile.full_name),
       avatarUrl: profile.avatar_url,
-      rating: ratings.length ? average.toFixed(1).replace('.', '٫') : 'جديد',
+      rating: ratings.length ? average.toFixed(1) : 'جديد',
       reviewCount: ratings.length,
       skills: group.skills.slice(0, 5).map(s => s.title),
       skillCategories: Array.from(new Set(group.skills.map(s => s.category))),
@@ -78,7 +78,7 @@ export default async function Page() {
       supabase.from('profiles').select('full_name, avatar_url').eq('id', user.id).maybeSingle(),
       supabase.from('conversations').select('id').or(`user_a_id.eq.${user.id},user_b_id.eq.${user.id}`),
     ])
-    fullName = profile?.full_name || user.user_metadata?.full_name || 'عضو ورّيني'
+    fullName = profile?.full_name || user.user_metadata?.full_name || 'عضو علّمني'
     avatarUrl = profile?.avatar_url ?? null
     const conversationIds = (conversations ?? []).map((row: { id: string }) => row.id)
     if (conversationIds.length) {
@@ -87,5 +87,5 @@ export default async function Page() {
     }
   }
 
-  return <WarreeniApp currentUser={user ? { id: user.id, fullName, avatarUrl, unreadMessages } : null} people={people} />
+  return <AllemniApp currentUser={user ? { id: user.id, fullName, avatarUrl, unreadMessages } : null} people={people} />
 }

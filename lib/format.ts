@@ -1,15 +1,15 @@
 // Small shared helpers for rendering numbers/dates the way the rest of the
-// ورّيني UI already does (Arabic-Indic digits, Cairo-friendly wording).
+// علّمني UI already does (Arabic-Indic digits, Cairo-friendly wording).
 
 export function arNumber(value: number | null | undefined, maxFractionDigits = 1): string {
   const safeValue = typeof value === 'number' && Number.isFinite(value) ? value : 0
-  return safeValue.toLocaleString('ar-EG', {
+  return safeValue.toLocaleString('ar-EG-u-nu-latn', {
     maximumFractionDigits: maxFractionDigits,
   })
 }
 
 export function arDateTime(iso: string): string {
-  return new Date(iso).toLocaleDateString('ar-EG', {
+  return new Date(iso).toLocaleDateString('ar-EG-u-nu-latn', {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
@@ -19,7 +19,7 @@ export function arDateTime(iso: string): string {
 }
 
 export function arDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('ar-EG', {
+  return new Date(iso).toLocaleDateString('ar-EG-u-nu-latn', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',

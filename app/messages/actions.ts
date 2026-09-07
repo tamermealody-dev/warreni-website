@@ -8,7 +8,7 @@ async function requireUser() {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) throw new Error('لازم تسجّل دخول الأول.')
+  if (!user) throw new Error('يجب تسجيل الدخول أولًا.')
   return { supabase, user }
 }
 
@@ -18,8 +18,8 @@ async function requireUser() {
 // never end up with two conversations for the same pair.
 export async function startConversationWith(otherUserId: string) {
   const { supabase, user } = await requireUser()
-  if (!otherUserId) throw new Error('محتاجين نعرف هتراسل مين.')
-  if (otherUserId === user.id) throw new Error('مينفعش تبدأ محادثة مع نفسك.')
+  if (!otherUserId) throw new Error('نحتاج إلى معرفة من تريد مراسلته.')
+  if (otherUserId === user.id) throw new Error('لا يمكنك بدء محادثة مع نفسك.')
 
   const [userAId, userBId] = [user.id, otherUserId].sort()
 
@@ -59,8 +59,8 @@ export async function startConversationWith(otherUserId: string) {
 export async function sendMessage(conversationId: string, content: string) {
   const { supabase, user } = await requireUser()
   const text = content.trim()
-  if (!text) throw new Error('اكتب رسالة الأول.')
-  if (text.length > 2000) throw new Error('الرسالة طويلة أوي.')
+  if (!text) throw new Error('اكتب رسالة أولًا.')
+  if (text.length > 2000) throw new Error('الرسالة طويلة جدًا.')
 
   const { error } = await supabase.from('messages').insert({
     conversation_id: conversationId,

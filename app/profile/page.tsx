@@ -136,7 +136,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
       supabase.from('notifications').select('id, title, body, read_at, created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(20),
     ])
 
-  const profile = (profileData ?? { id: user.id, full_name: 'عضو ورّيني', city: null, bio: null, avatar_url: null, phone: null, created_at: new Date().toISOString() }) as ProfileRow
+  const profile = (profileData ?? { id: user.id, full_name: 'عضو علّمني', city: null, bio: null, avatar_url: null, phone: null, created_at: new Date().toISOString() }) as ProfileRow
   const wallet = (walletData ?? { balance_hours: 0, balance_egp: 0, pending_earnings_egp: 0 }) as WalletRow
   const skills = (skillsData ?? []) as SkillRow[]
   const bookings = (bookingsData ?? []) as BookingRow[]
@@ -164,7 +164,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
     const otherId = b.requester_id === user!.id ? b.provider_id : b.requester_id
     return {
       id: b.id,
-      otherName: nameById.get(otherId) ?? 'عضو ورّيني',
+      otherName: nameById.get(otherId) ?? 'عضو علّمني',
       otherAvatarUrl: otherProfiles.find((p) => p.id === otherId)?.avatar_url ?? null,
       skillTitle: b.skill_offered_id ? skillTitleById.get(b.skill_offered_id) ?? null : null,
       proposedDatetime: b.proposed_datetime,
@@ -191,7 +191,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
     return {
       bookingId: b.id,
       otherId,
-      otherName: nameById.get(otherId) ?? 'عضو ورّيني',
+      otherName: nameById.get(otherId) ?? 'عضو علّمني',
       otherAvatarUrl: avatarById.get(otherId) ?? null,
       proposedDatetime: b.proposed_datetime,
       rating: review?.rating ?? null,
@@ -223,7 +223,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
     // own wallet balance.
     const insufficientBalance = !liveSession && bothApproved && acceptedBooking.requester_id === user.id && acceptedBooking.payment_method === 'hours' && wallet.balance_hours < acceptedBooking.hours
     activeSession = {
-      bookingId: acceptedBooking.id, otherName: nameById.get(otherId) ?? 'عضو ورّيني', otherAvatarUrl: otherProfiles.find((p) => p.id === otherId)?.avatar_url ?? null,
+      bookingId: acceptedBooking.id, otherName: nameById.get(otherId) ?? 'عضو علّمني', otherAvatarUrl: otherProfiles.find((p) => p.id === otherId)?.avatar_url ?? null,
       proposedDatetime: acceptedBooking.proposed_datetime, hours: acceptedBooking.hours, myConfirmed,
       sessionId: liveSession?.id ?? null, sessionStatus: liveSession?.status ?? null,
       sessionStartedAt: liveSession?.started_at ?? null, sessionEndsAt: liveSession?.ends_at ?? null,
@@ -245,7 +245,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
     const otherId = positive ? t.from_user_id : t.to_user_id
     return {
       id: t.id,
-      otherName: nameById.get(otherId) ?? 'عضو ورّيني',
+      otherName: nameById.get(otherId) ?? 'عضو علّمني',
       otherAvatarUrl: avatarById.get(otherId) ?? null,
       hours: t.hours,
       positive,

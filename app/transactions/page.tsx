@@ -88,7 +88,7 @@ export default async function TransactionsPage() {
     return {
       id: t.id,
       date: t.created_at,
-      otherName: nameById.get(otherId) ?? 'عضو ورّيني',
+      otherName: nameById.get(otherId) ?? 'عضو علّمني',
       otherAvatarUrl: profiles.find((p) => p.id === otherId)?.avatar_url ?? null,
       skillTitle: skillId ? skillTitleById.get(skillId) ?? null : null,
       hours: t.hours,
@@ -103,7 +103,7 @@ export default async function TransactionsPage() {
     return {
       id: b.id,
       date: b.proposed_datetime,
-      otherName: nameById.get(otherId) ?? 'عضو ورّيني',
+      otherName: nameById.get(otherId) ?? 'عضو علّمني',
       otherAvatarUrl: profiles.find((p) => p.id === otherId)?.avatar_url ?? null,
       skillTitle: b.skill_offered_id ? skillTitleById.get(b.skill_offered_id) ?? null : null,
       hours: b.hours,

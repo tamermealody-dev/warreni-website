@@ -28,7 +28,7 @@ export default function PayoutHistory({ rows }: { rows: PayoutHistoryRow[] }) {
     <section className="payout-history payout-card">
       <div className="card-heading"><div><p className="eyebrow">السجل</p><h2>طلبات السحب</h2></div></div>
       {rows.length === 0 ? (
-        <div className="payout-empty">لسه مفيش طلبات سحب.</div>
+        <div className="payout-empty">لا توجد طلبات سحب بعد.</div>
       ) : (
         <div className="payout-history-list">
           {rows.map((row) => (
@@ -40,7 +40,7 @@ export default function PayoutHistory({ rows }: { rows: PayoutHistoryRow[] }) {
               <div className={`payout-history-status ${row.status}`}>
                 {statusIcon(row.status)} {labels[row.status]}
               </div>
-              <time dateTime={row.requested_at}>{new Date(row.requested_at).toLocaleString('ar-EG', { dateStyle: 'medium', timeStyle: 'short' })}</time>
+              <time dateTime={row.requested_at}>{new Date(row.requested_at).toLocaleString('ar-EG-u-nu-latn', { dateStyle: 'medium', timeStyle: 'short' })}</time>
               {row.admin_note && <p>{row.admin_note}</p>}
             </article>
           ))}

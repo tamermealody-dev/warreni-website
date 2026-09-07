@@ -11,23 +11,23 @@ const siteUrl = process.env.APP_URL || "https://warreni.sahebelcode.xyz";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "ورّيني — بدل الفلوس، بادل وقتك",
-    template: "%s | ورّيني",
+    default: "علّمني — بدلًا من المال، بادل وقتك",
+    template: "%s | علّمني",
   },
   description:
-    "منصة مصرية لتبادل المهارات بالوقت. ساعة منك تساوي ساعة من غيرك — علّم غيرك اللي تعرفه، وخد وقت لتتعلم اللي محتاجه.",
+    "منصة مصرية لتبادل المهارات بالوقت. ساعة منك تساوي ساعة من غيرك — علّم الآخرين ما تعرفه، وتعلّم ما تحتاج إليه.",
   keywords: [
-    "ورّيني",
+    "علّمني",
     "تبادل مهارات",
-    "تعليم اونلاين",
+    "التعليم عبر الإنترنت",
     "مصر",
     "تبادل وقت",
     "skill exchange",
     "Egypt",
   ],
-  applicationName: "ورّيني",
+  applicationName: "علّمني",
   generator: "v0.app",
-  authors: [{ name: "ورّيني" }],
+  authors: [{ name: "علّمني" }],
   formatDetection: { telephone: false },
   alternates: { canonical: "/" },
   icons: {
@@ -53,17 +53,17 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ar_EG",
     url: siteUrl,
-    siteName: "ورّيني",
-    title: "ورّيني — بدل الفلوس، بادل وقتك",
+    siteName: "علّمني",
+    title: "علّمني — بدلًا من المال، بادل وقتك",
     description:
       "منصة مصرية لتبادل المهارات بالوقت. ساعة منك تساوي ساعة من غيرك.",
     images: [
-      { url: "/apple-icon.png", width: 180, height: 180, alt: "ورّيني" },
+      { url: "/apple-icon.png", width: 180, height: 180, alt: "علّمني" },
     ],
   },
   twitter: {
     card: "summary",
-    title: "ورّيني — بدل الفلوس، بادل وقتك",
+    title: "علّمني — بدلًا من المال، بادل وقتك",
     description:
       "منصة مصرية لتبادل المهارات بالوقت. ساعة منك تساوي ساعة من غيرك.",
     images: ["/apple-icon.png"],

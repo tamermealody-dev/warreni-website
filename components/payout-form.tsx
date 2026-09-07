@@ -35,7 +35,7 @@ export default function PayoutForm({ payout }: { payout: PayoutData }) {
         await savePayoutAccount({ method, accountHolderName: holder, bankName, iban, accountNumber, walletProvider, walletPhone })
         setMessage('تم حفظ بيانات السحب بنجاح.')
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'حصلت مشكلة، حاول تاني.')
+        setError(err instanceof Error ? err.message : 'حدثت مشكلة، حاول مرة أخرى.')
       }
     })
   }
@@ -47,7 +47,7 @@ export default function PayoutForm({ payout }: { payout: PayoutData }) {
           <span>حساب بنكي</span><small>IBAN + اسم البنك</small>
         </button>
         <button type="button" className={method === 'mobile_wallet' ? 'active' : ''} onClick={() => setMethod('mobile_wallet')}>
-          <span>محفظة إلكترونية</span><small>رقم الموبايل</small>
+          <span>محفظة إلكترونية</span><small>رقم الهاتف المحمول</small>
         </button>
       </div>
 
@@ -70,7 +70,7 @@ export default function PayoutForm({ payout }: { payout: PayoutData }) {
       {error && <p className="payout-status error">{error}</p>}
 
       <button className="button primary full" disabled={pending} type="submit">
-        {pending ? <><LoaderCircle size={16} className="spin" /> جاري الحفظ...</> : <><Save size={16} /> حفظ بيانات السحب</>}
+        {pending ? <><LoaderCircle size={16} className="spin" /> جارٍ الحفظ...</> : <><Save size={16} /> حفظ بيانات السحب</>}
       </button>
     </form>
   )

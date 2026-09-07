@@ -84,7 +84,7 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
         // or clear when the tab closes (sessionStorage). Must be set before
         // signInWithPassword creates the session.
         if (typeof window !== 'undefined') {
-          window.localStorage.setItem('warreeni-remember-me', rememberMe ? '1' : '0')
+          window.localStorage.setItem('allemni-remember-me', rememberMe ? '1' : '0')
         }
         const { error: signInError } = await supabase.auth.signInWithPassword({
           email,
@@ -128,7 +128,7 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
             <span>
               <Clock3 size={19} />
             </span>
-            ورّيني
+            علّمني
           </Link>
           {forgotSent ? (
             <div className="auth-form">
@@ -136,9 +136,9 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
                 <span>
                   <MailCheck size={30} />
                 </span>
-                <h2>افتح إيميلك</h2>
+                <h2>افتح بريدك الإلكتروني</h2>
                 <p>
-                  لو الإيميل <b>{forgotEmail}</b> متسجل عندنا، بعتنالك رابط لإعادة تعيين كلمة المرور.
+                  إذا كان البريد الإلكتروني <b>{forgotEmail}</b> مسجلًا لدينا، فقد أرسلنا إليك رابطًا لإعادة تعيين كلمة المرور.
                 </p>
                 <button
                   className="button primary"
@@ -154,8 +154,8 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
           ) : (
             <form className="auth-form" onSubmit={handleForgotSubmit}>
               <p className="eyebrow">نسيت كلمة المرور؟</p>
-              <h1>محتاج تعيد ضبطها.</h1>
-              <p className="auth-sub">هنبعتلك رابط على إيميلك عشان تختار كلمة مرور جديدة.</p>
+              <h1>تحتاج تعيد ضبطها.</h1>
+              <p className="auth-sub">سنرسل إليك رابطًا إلى بريدك الإلكتروني لتختار كلمة مرور جديدة.</p>
 
               {forgotError && <p className="auth-error">{forgotError}</p>}
 
@@ -170,10 +170,10 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
                 />
               </label>
               <button className="button primary full auth-submit" type="submit" disabled={forgotLoading}>
-                {forgotLoading ? <><span className="button-spinner" /> جاري الإرسال...</> : <>ابعت رابط إعادة الضبط <ArrowLeft size={17} /></>}
+                {forgotLoading ? <><span className="button-spinner" /> جاري الإرسال...</> : <>أرسل رابط إعادة الضبط <ArrowLeft size={17} /></>}
               </button>
               <p className="switch">
-                فاكر كلمة المرور؟{' '}
+                هل تتذكر كلمة المرور؟{' '}
                 <button type="button" className="link-button" onClick={() => setForgotMode(false)}>
                   رجوع لتسجيل الدخول
                 </button>
@@ -215,17 +215,17 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
             <span>
               <Clock3 size={19} />
             </span>
-            ورّيني
+            علّمني
           </Link>
           <div className="auth-form">
             <div className="success">
               <span>
                 <MailCheck size={30} />
               </span>
-              <h2>افتح إيميلك</h2>
+              <h2>افتح بريدك الإلكتروني</h2>
               <p>
-                بعتنالك رابط تأكيد على <b>{email}</b>. افتح الرسالة واضغط على
-                الرابط عشان تفعّل حسابك، وبعدين ترجع تسجّل دخولك من هنا.
+                أرسلنا إليك رابط تأكيد على <b>{email}</b>. افتح الرسالة واضغط على
+                الرابط لتفعيل حسابك، ثم عُد لتسجيل الدخول من هنا.
               </p>
               <button className="button primary" onClick={() => router.push('/login')}>
                 تسجيل الدخول
@@ -266,14 +266,14 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
           <span>
             <Clock3 size={19} />
           </span>
-          ورّيني
+          علّمني
         </Link>
         <form className="auth-form" onSubmit={handleSubmit}>
-          <p className="eyebrow">{signup ? 'أهلاً بيك' : 'وحشتنا'}</p>
-          <h1>{signup ? 'ابدأ حكايتك.' : 'رجعت تاني.'}</h1>
+          <p className="eyebrow">{signup ? 'أهلًا بك' : 'مرحبًا بعودتك'}</p>
+          <h1>{signup ? 'ابدأ حكايتك.' : 'مرحبًا بعودتك.'}</h1>
           <p className="auth-sub">
             {signup
-              ? 'اعمل حسابك وابدأ تبادل المهارات في أقل من دقيقة.'
+              ? 'أنشئ حسابك وابدأ تبادل المهارات في أقل من دقيقة.'
               : 'سجّل دخولك وكمل تبادل وقتك مع مجتمعك.'}
           </p>
 
@@ -304,7 +304,7 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
             <label>
               المدينة
               <select value={city} onChange={(e) => setCity(e.target.value)} required>
-                <option value="" disabled>اختار محافظتك</option>
+                <option value="" disabled>اختر محافظتك</option>
                 {EGYPT_LOCATIONS.map((location) => <option key={location} value={location}>{location}</option>)}
               </select>
             </label>
@@ -339,7 +339,7 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
             {loading ? <><span className="button-spinner" /> جاري التحميل...</> : <>{signup ? 'إنشاء الحساب' : 'تسجيل الدخول'} <ArrowLeft size={17} /></>}
           </button>
           <p className="switch">
-            {signup ? 'عندك حساب بالفعل؟' : 'لسه جديد في ورّيني؟'}{' '}
+            {signup ? 'عندك حساب بالفعل؟' : 'هل أنت جديد في علّمني؟'}{' '}
             <Link href={signup ? '/login' : '/signup'}>{signup ? 'تسجيل الدخول' : 'إنشاء حساب'}</Link>
           </p>
         </form>
@@ -356,16 +356,16 @@ export default function AuthPage({ mode }: { mode: 'login' | 'signup' }) {
 function mapAuthError(err: unknown): string {
   const message = err instanceof Error ? err.message : ''
   if (message.includes('Invalid login credentials')) {
-    return 'الإيميل أو كلمة المرور غلط، جرّب تاني.'
+    return 'البريد الإلكتروني أو كلمة المرور غلط، حاول مرة أخرى.'
   }
   if (message.includes('User already registered')) {
-    return 'الإيميل ده متسجل بحساب قبل كده. جرّب تسجّل دخول بدل كده.'
+    return 'هذا البريد الإلكتروني مسجل بحساب بالفعل. جرّب تسجيل الدخول بدلًا من ذلك.'
   }
   if (message.includes('Password should be at least')) {
-    return 'كلمة المرور لازم تكون ٦ حروف/أرقام على الأقل.'
+    return 'كلمة المرور يجب أن تكون 6 حروف/أرقام على الأقل.'
   }
   if (message.includes('Email not confirmed')) {
-    return 'لازم تأكد إيميلك الأول. افتح الرسالة اللي بعتناهالك وادوس على الرابط.'
+    return 'يجب تأكيد بريدك الإلكتروني أولًا. افتح الرسالة التي أرسلناها إليك واضغط على الرابط.'
   }
-  return 'حصلت مشكلة، حاول تاني كمان شوية.'
+  return 'حدثت مشكلة، حاول مرة أخرى بعد قليل.'
 }

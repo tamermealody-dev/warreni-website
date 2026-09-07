@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/server'
 async function requireUser() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error('لازم تسجّل دخول الأول.')
+  if (!user) throw new Error('يجب تسجيل الدخول أولًا.')
   return { supabase, user }
 }
 
@@ -91,8 +91,8 @@ const SKILL_CATEGORIES = ['design', 'programming', 'cooking', 'teaching', 'repai
 export async function addSkillOffered(input: { category: string; title: string; description?: string }) {
   const { supabase, user } = await requireUser()
   const title = input.title?.trim()
-  if (!title) throw new Error('اكتب اسم المهارة الأول.')
-  if (!SKILL_CATEGORIES.includes(input.category)) throw new Error('اختار فئة صحيحة للمهارة.')
+  if (!title) throw new Error('أدخل اسم المهارة أولًا.')
+  if (!SKILL_CATEGORIES.includes(input.category)) throw new Error('اختر فئة صحيحة للمهارة.')
 
   const { error } = await supabase.from('skills_offered').insert({
     user_id: user.id,
@@ -122,9 +122,9 @@ export async function updateProfile(input: { fullName: string; city: string; bio
   const bio = input.bio?.trim() || null
 
   if (!fullName || fullName.length < 2) throw new Error('اكتب اسمك بشكل صحيح.')
-  if (fullName.length > 80) throw new Error('الاسم طويل أوي.')
-  if (city && city.length > 100) throw new Error('اسم المدينة طويل أوي.')
-  if (bio && bio.length > 500) throw new Error('النبذة طويلة أوي. الحد الأقصى ٥٠٠ حرف.')
+  if (fullName.length > 80) throw new Error('الاسم طويل جدًا.')
+  if (city && city.length > 100) throw new Error('اسم المدينة طويل جدًا.')
+  if (bio && bio.length > 500) throw new Error('النبذة طويلة جدًا. الحد الأقصى 500 حرف.')
 
   const { error: metadataError } = await supabase.auth.updateUser({
     data: { displayname: fullName, display_name: fullName, full_name: fullName },
@@ -138,7 +138,7 @@ export async function updateProfile(input: { fullName: string; city: string; bio
   })
 
   if (error) throw new Error(error.message)
-  if (!updatedProfile) throw new Error('مقدرناش نحفظ بيانات البروفايل. جرّب تسجيل الدخول من جديد.')
+  if (!updatedProfile) throw new Error('تعذّر علينا حفظ بيانات الملف الشخصي. جرّب تسجيل الدخول مرة أخرى.')
 
   if (input.avatarUrl !== undefined) {
     const { error: avatarError } = await supabase
@@ -165,8 +165,8 @@ export async function changePassword(input: { password: string; confirmPassword:
   const { supabase } = await requireUser()
   const password = input.password?.trim()
   const confirmPassword = input.confirmPassword?.trim()
-  if (!password || password.length < 8) throw new Error('كلمة المرور لازم تكون ٨ أحرف على الأقل.')
-  if (password !== confirmPassword) throw new Error('تأكيد كلمة المرور مش مطابق.')
+  if (!password || password.length < 8) throw new Error('كلمة المرور يجب أن تكون 8 أحرف على الأقل.')
+  if (password !== confirmPassword) throw new Error('تأكيد كلمة المرور غير مطابق.')
 
   const { error } = await supabase.auth.updateUser({ password })
   if (error) throw new Error(error.message)
@@ -177,8 +177,8 @@ export async function submitReview(input: { bookingId: string; rating: number; c
   const { supabase, user } = await requireUser()
   const rating = Number(input.rating)
   const comment = input.comment?.trim() || null
-  if (!Number.isInteger(rating) || rating < 1 || rating > 5) throw new Error('اختار تقييم من 1 إلى 5.')
-  if (comment && comment.length > 500) throw new Error('التعليق طويل أوي. الحد الأقصى 500 حرف.')
+  if (!Number.isInteger(rating) || rating < 1 || rating > 5) throw new Error('اختر تقييم من 1 إلى 5.')
+  if (comment && comment.length > 500) throw new Error('التعليق طويل جدًا. الحد الأقصى 500 حرف.')
 
   const { data: booking, error: bookingError } = await supabase
     .from('bookings')
@@ -187,7 +187,7 @@ export async function submitReview(input: { bookingId: string; rating: number; c
     .single()
   if (bookingError || !booking) throw new Error('الجلسة غير موجودة.')
   if (booking.status !== 'completed') throw new Error('التقييم متاح بعد إتمام الجلسة.')
-  if (booking.requester_id !== user.id && booking.provider_id !== user.id) throw new Error('مش مسموح لك تقيّم الجلسة دي.')
+  if (booking.requester_id !== user.id && booking.provider_id !== user.id) throw new Error('غير مسموح لك تقيّم هذه الجلسة.')
 
   const revieweeId = booking.requester_id === user.id ? booking.provider_id : booking.requester_id
   const { error } = await supabase.from('reviews').insert({
@@ -198,7 +198,7 @@ export async function submitReview(input: { bookingId: string; rating: number; c
     comment,
   })
   if (error) {
-    if (error.code === '23505') throw new Error('إنت قيّمت الجلسة دي قبل كده.')
+    if (error.code === '23505') throw new Error('لقد قيّمت هذه الجلسة من قبل.')
     throw new Error(error.message)
   }
   revalidatePath('/profile')

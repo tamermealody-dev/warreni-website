@@ -16,10 +16,10 @@ type ContextMenuProps = {
 
 const menus = {
   profile: [
-    { label: 'عرض البروفايل الكامل', icon: UserRound },
+    { label: 'عرض الملف الشخصي الكامل', icon: UserRound },
     { label: 'إرسال رسالة', icon: MessageCircle },
     { label: 'طلب تبادل', icon: Handshake },
-    { label: 'نسخ رابط البروفايل', icon: Link2, copy: true },
+    { label: 'نسخ رابط الملف الشخصي', icon: Link2, copy: true },
     { divider: true },
     { label: 'الإبلاغ عن هذا المستخدم', icon: Flag, danger: true },
   ],

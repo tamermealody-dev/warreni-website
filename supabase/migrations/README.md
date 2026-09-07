@@ -1,4 +1,4 @@
-# ورّيني — Backend Setup Guide (Step 1: Database Schema)
+# علّمني — Backend Setup Guide (Step 1: Database Schema)
 
 ## اللي عملته في الخطوة دي
 

@@ -3,7 +3,7 @@ export default function ExploreLoading() {
     <main dir="rtl" className="app-page">
       <div className="page-container">
         <div className="explore-heading">
-          <div><p className="eyebrow">ورّيني</p><h1>استكشف المهارات</h1><p>جاري تحميل الأشخاص والمهارات...</p></div>
+          <div><p className="eyebrow">علّمني</p><h1>استكشف المهارات</h1><p>جاري تحميل الأشخاص والمهارات...</p></div>
           <div className="big-search" aria-hidden="true" />
         </div>
         <div className="explore-layout">

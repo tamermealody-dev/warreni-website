@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 export async function approveSessionStart(bookingId: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error('لازم تسجّل دخول الأول.')
+  if (!user) throw new Error('يجب تسجيل الدخول أولًا.')
 
   const { data, error } = await supabase.rpc('approve_session_start', { p_booking_id: bookingId })
   if (error) throw new Error(error.message)

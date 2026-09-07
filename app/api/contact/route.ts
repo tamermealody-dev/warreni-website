@@ -49,7 +49,7 @@ export async function POST(request: Request) {
         from,
         to: [to],
         reply_to: email,
-        subject: `[ورّيني] ${subject}`,
+        subject: `[علّمني] ${subject}`,
         html: `
           <div dir="rtl" style="font-family:Arial,sans-serif;line-height:1.8;color:#111827">
             <h2>رسالة جديدة من نموذج تواصل معنا</h2>

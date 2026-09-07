@@ -8,7 +8,7 @@ async function requireUser() {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (!user) throw new Error('لازم تسجّل دخول الأول.')
+  if (!user) throw new Error('يجب تسجيل الدخول أولًا.')
   return { supabase, user }
 }
 
@@ -29,8 +29,8 @@ export async function createBookingRequest(input: CreateBookingInput) {
   const { supabase, user } = await requireUser()
 
   const providerId = input.providerId
-  if (!providerId) throw new Error('محتاجين نعرف مين اللي هتطلب منه التبادل.')
-  if (providerId === user.id) throw new Error('مينفعش تطلب تبادل مع نفسك.')
+  if (!providerId) throw new Error('نحتاج إلى معرفة الشخص الذي ستطلب منه التبادل.')
+  if (providerId === user.id) throw new Error('لا يمكن تطلب تبادل مع نفسك.')
 
   const { data: existingRequest, error: existingRequestError } = await supabase
     .from('bookings')
@@ -41,15 +41,15 @@ export async function createBookingRequest(input: CreateBookingInput) {
     .limit(1)
     .maybeSingle()
   if (existingRequestError) throw new Error(existingRequestError.message)
-  if (existingRequest) throw new Error('إنت بعت طلب بالفعل للشخص ده. استنى رده الأول.')
+  if (existingRequest) throw new Error('لقد أرسلت طلبًا بالفعل إلى هذا الشخص. انتظر رده أولًا.')
 
   const hours = Number(input.hours)
-  if (!Number.isFinite(hours) || hours <= 0) throw new Error('عدد الساعات لازم يكون أكبر من صفر.')
-  if (hours > 3) throw new Error('أقصى اختيار في الطلب الواحد ٣ ساعات.')
+  if (!Number.isFinite(hours) || hours <= 0) throw new Error('عدد الساعات يجب أن يكون أكبر من صفر.')
+  if (hours > 3) throw new Error('أقصى اختيار في الطلب الواحد 3 ساعات.')
 
   const proposedDate = new Date(input.proposedDatetime)
-  if (Number.isNaN(proposedDate.getTime())) throw new Error('اختار تاريخ ووقت صحيحين.')
-  if (proposedDate.getTime() < Date.now()) throw new Error('اختار معاد في المستقبل.')
+  if (Number.isNaN(proposedDate.getTime())) throw new Error('اختر تاريخ ووقت صحيحين.')
+  if (proposedDate.getTime() < Date.now()) throw new Error('اختر موعدًا في المستقبل.')
 
   const paymentMethod = input.paymentMethod === 'money' ? 'money' : 'hours'
   const sessionPriceEgp = Math.round(hours * 20 * 100) / 100
@@ -62,7 +62,7 @@ export async function createBookingRequest(input: CreateBookingInput) {
       .eq('id', input.skillOfferedId)
       .maybeSingle()
     if (skillError) throw new Error(skillError.message)
-    if (!skill || skill.user_id !== providerId) throw new Error('المهارة دي مش تابعة للشخص ده.')
+    if (!skill || skill.user_id !== providerId) throw new Error('هذه المهارة لا تخص هذا الشخص.')
   }
 
   if (paymentMethod === 'hours') {
@@ -74,7 +74,7 @@ export async function createBookingRequest(input: CreateBookingInput) {
     if (walletError) throw new Error(walletError.message)
     const balance = Number(wallet?.balance_hours ?? 0)
     if (hours > balance) {
-      throw new Error(`رصيدك الحالي ${balance} ساعة فقط، ومينفعش تطلب أكتر من رصيدك.`)
+      throw new Error(`رصيدك الحالي ${balance} ساعة فقط، ولا يمكنك طلب أكثر من رصيدك.`)
     }
   }
 

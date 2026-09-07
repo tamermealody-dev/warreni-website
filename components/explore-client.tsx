@@ -54,11 +54,11 @@ function BookingModal({ person, balanceHours, close }: { person: ExplorePerson; 
 
   function submit() {
     if (paymentMethod === 'hours' && maxHours < 1) {
-      setError('رصيد ساعاتك الحالي مش كفاية لطلب تبادل. أكمل تبادلًا أو احصل على ساعات أولًا.')
+      setError('رصيد ساعاتك الحالي غير كافٍ لطلب تبادل. أكمل تبادلًا أو احصل على ساعات أولًا.')
       return
     }
     if (!datetime) {
-      setError('اختار معاد مناسب للجلسة.')
+      setError('اختر موعدًا مناسب للجلسة.')
       return
     }
     setError(null)
@@ -76,7 +76,7 @@ function BookingModal({ person, balanceHours, close }: { person: ExplorePerson; 
         setPendingRequestIds((current) => new Set(current).add(person.id))
         router.refresh()
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'حصلت مشكلة، حاول تاني.')
+        setError(err instanceof Error ? err.message : 'حدثت مشكلة، حاول مرة أخرى.')
       }
     })
   }
@@ -92,17 +92,17 @@ function BookingModal({ person, balanceHours, close }: { person: ExplorePerson; 
             <span>
               <Check size={30} />
             </span>
-            <h2>طلبك اتبعت بنجاح</h2>
-            <p>هنبلغ {person.name} ونرجعلك أول ما يرد. تقدر تتابع الطلب من صفحة البروفايل.</p>
+            <h2>تم إرسال طلبك بنجاح</h2>
+            <p>سنبلغ {person.name} وسنعود إليك بمجرد أن يرد. يمكنك متابعة الطلب من صفحة الملف الشخصي.</p>
             <button className="button primary" onClick={close}>
-              تمام
+              حسنًا
             </button>
           </div>
         ) : (
           <>
             <p className="eyebrow">تبادل جديد</p>
             <h2>اطلب تبادل مع {person.name}</h2>
-            <p className="modal-copy">ساعة الجلسة قيمتها 20 جنيه، وتقدر كمان تستخدم رصيد الساعات المعتاد.</p>
+            <p className="modal-copy">تبلغ قيمة الجلسة 20 جنيهًا للساعة، ويمكنك أيضًا استخدام رصيد الساعات المعتاد.</p>
             <div className="two-col">
               <label>
                 طريقة الدفع
@@ -138,13 +138,13 @@ function BookingModal({ person, balanceHours, close }: { person: ExplorePerson; 
                 <select value={hours} onChange={(e) => setHours(e.target.value)} disabled={paymentMethod === 'hours' && maxHours < 1}>
                   {(paymentMethod === 'money' || maxHours >= 1) && <option value="1">ساعة واحدة</option>}
                   {(paymentMethod === 'money' || maxHours >= 2) && <option value="2">ساعتين</option>}
-                  {(paymentMethod === 'money' || maxHours >= 3) && <option value="3">٣ ساعات</option>}
+                  {(paymentMethod === 'money' || maxHours >= 3) && <option value="3">3 ساعات</option>}
                 </select>
               </label>
             </div>
             <label>
               رسالة قصيرة
-              <textarea placeholder="اكتب له محتاج إيه بالظبط..." value={message} onChange={(e) => setMessage(e.target.value)} />
+              <textarea placeholder="اكتب ما تحتاج إليه تحديدًا..." value={message} onChange={(e) => setMessage(e.target.value)} />
             </label>
             {error && <p className="auth-error">{error}</p>}
             <button className="button primary full" disabled={pending} onClick={submit}>
@@ -194,7 +194,7 @@ export default function ExploreClient({ people, currentUserId, currentUserBalanc
         const conversationId = await startConversationWith(person.id)
         router.push(`/messages?c=${conversationId}`)
       } catch (err) {
-        setMessageError(err instanceof Error ? err.message : 'حصلت مشكلة، حاول تاني.')
+        setMessageError(err instanceof Error ? err.message : 'حدثت مشكلة، حاول مرة أخرى.')
       }
     })
   }
@@ -229,7 +229,7 @@ export default function ExploreClient({ people, currentUserId, currentUserBalanc
       </label>
       <label className="filter-select location-select">
         <span>الموقع</span>
-        <select value={location} onChange={(e) => setLocation(e.target.value)} aria-label="اختار الموقع">
+        <select value={location} onChange={(e) => setLocation(e.target.value)} aria-label="اختر الموقع">
           <option value="الكل">كل المدن</option>
           {Array.from(new Set([...EGYPT_LOCATIONS, ...people.map((p) => p.city)])).map((city) => <option key={city} value={city}>{city}</option>)}
         </select>
@@ -254,14 +254,14 @@ export default function ExploreClient({ people, currentUserId, currentUserBalanc
           <span>
             <SlidersHorizontal size={18} />
           </span>
-          ورّيني
+          علّمني
         </Link>
         <div className="app-nav-links">
           <Link href="/explore" className="active-nav">
             استكشف
           </Link>
           <Link href="/messages">الرسائل</Link><Link href="/sessions">الجلسات</Link>
-          <Link href="/profile">البروفايل</Link>
+          <Link href="/profile">الملف الشخصي</Link>
         </div>
         <Link href="/profile" className="button ghost small-dark">
           حسابي
@@ -272,7 +272,7 @@ export default function ExploreClient({ people, currentUserId, currentUserBalanc
           <div>
             <p className="eyebrow">المجتمع كله قدامك</p>
             <h1>استكشف المهارات</h1>
-            <p>كل شخص هنا عنده حاجة مميزة يشاركها معاك.</p>
+            <p>كل شخص هنا لديه معرفة مميزة يشاركها معك.</p>
           </div>
           <div className="big-search">
             <Search size={21} />
@@ -316,7 +316,7 @@ export default function ExploreClient({ people, currentUserId, currentUserBalanc
                         <h3>
                           {p.name} {p.verified && <ShieldCheck size={14} />}
                         </h3>
-                        <p>{p.skills[0]?.title ?? 'عضو في ورّيني'}</p>
+                        <p>{p.skills[0]?.title ?? 'عضو في علّمني'}</p>
                       </div>
                     </div>
                     <div className="explore-meta">
@@ -341,7 +341,7 @@ export default function ExploreClient({ people, currentUserId, currentUserBalanc
                             راسلني <UserRound size={14} />
                           </button>
                           <button className="button small" disabled={pendingRequestIds.has(p.id)} onClick={() => requestExchange(p)}>
-                            {pendingRequestIds.has(p.id) ? 'الطلب اتبعت' : 'اطلب تبادل'}
+                            {pendingRequestIds.has(p.id) ? 'تم إرسال الطلب' : 'اطلب تبادل'}
                           </button>
                         </div>
                     </div>
@@ -351,8 +351,8 @@ export default function ExploreClient({ people, currentUserId, currentUserBalanc
             ) : (
               <div className="empty-explore">
                 <Search size={32} />
-                <h3>معلش، مفيش نتائج مطابقة</h3>
-                <p>{people.length ? 'جرب تغيّر الفلاتر أو ابحث بكلمة مختلفة.' : 'لسه محدش ضاف مهارة يشاركها. كن أول واحد!'}</p>
+                <h3>عذرًا، لا توجد نتائج مطابقة</h3>
+                <p>{people.length ? 'جرّب تغيير الفلاتر أو البحث بكلمة مختلفة.' : 'لم يضف أحد مهارة لمشاركتها بعد. كن أول من يبدأ!'}</p>
               </div>
             )}
           </section>

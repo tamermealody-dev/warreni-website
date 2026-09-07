@@ -29,13 +29,13 @@ export default async function PayoutPage() {
   return (
     <main className="payout-page">
       <div className="container payout-shell">
-        <Link href="/profile" className="info-back"><ArrowRight size={15} /> الرجوع للبروفايل</Link>
+        <Link href="/profile" className="info-back"><ArrowRight size={15} /> الرجوع للملف شخصي</Link>
 
         <section className="payout-hero">
           <div>
             <p className="eyebrow">السحب والدفع</p>
             <h1>بيانات سحب أرباحك</h1>
-            <p>سجّل وسيلة استلام مناسبة لك. البيانات دي تُستخدم لترتيب صرف رصيدك المستحق يدويًا، ومش معناها إن السحب بيتم تلقائيًا دلوقتي.</p>
+            <p>سجّل وسيلة استلام مناسبة لك. هذه البيانات تُستخدم لترتيب صرف رصيدك المستحق يدويًا، ولا يعني ذلك أن السحب يتم تلقائيًا الآن.</p>
           </div>
           <div className="payout-balance-grid">
             <div><Clock3 size={18} /><span>معلّق</span><strong>{Number(wallet?.pending_earnings_egp ?? 0).toFixed(2)} ج</strong></div>
@@ -45,14 +45,14 @@ export default async function PayoutPage() {
 
         <section className="payout-grid">
           <article className="payout-card payout-form-card">
-            <div className="card-heading"><div><p className="eyebrow">وسيلة الاستلام</p><h2>اختار طريقة السحب</h2></div></div>
+            <div className="card-heading"><div><p className="eyebrow">وسيلة الاستلام</p><h2>اختر طريقة السحب</h2></div></div>
             <PayoutForm payout={payout} />
           </article>
 
           <aside className="payout-side">
-            <div className="payout-mini-card"><ShieldCheck size={20} /><div><strong>حماية الحساب</strong><p>ما تدخلش رقم البطاقة البنكية أو CVV هنا. المطلوب بيانات التحويل أو المحفظة فقط.</p></div></div>
-            <div className="payout-mini-card"><Banknote size={20} /><div><strong>نصيبك من الجلسة</strong><p>في جلسات الدفع النقدي، المنصة تخصم 8% عمولة، والباقي يصبح مستحقًا لك بعد إكمال الجلسة.</p></div></div>
-            <div className="payout-mini-card"><Smartphone size={20} /><div><strong>السحب الفعلي</strong><p>البيانات الاستلام محفوظة عندك، وبعد طلب السحب بيتم حجز المبلغ لحد ما الطلب يتعالج.</p></div></div>
+            <div className="payout-mini-card"><ShieldCheck size={20} /><div><strong>حماية الحساب</strong><p>لا تُدخل رقم البطاقة البنكية أو CVV هنا. المطلوب بيانات التحويل أو المحفظة فقط.</p></div></div>
+            <div className="payout-mini-card"><Banknote size={20} /><div><strong>مستحقاتك من الجلسة</strong><p>في جلسات الدفع النقدي، المنصة تخصم 8% عمولة، والباقي يصبح مستحقًا لك بعد إكمال الجلسة.</p></div></div>
+            <div className="payout-mini-card"><Smartphone size={20} /><div><strong>السحب الفعلي</strong><p>بيانات الاستلام محفوظة لديك، وبعد طلب السحب يتم حجز المبلغ حتى تتم معالجة الطلب.</p></div></div>
           </aside>
         </section>
 

@@ -92,7 +92,7 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
     return {
       id: c.id,
       otherId,
-      otherName: nameById.get(otherId) ?? 'عضو ورّيني',
+      otherName: nameById.get(otherId) ?? 'عضو علّمني',
       avatarUrl: profiles.find((p) => p.id === otherId)?.avatar_url ?? null,
       skillTitle,
       lastMessageAt: c.last_message_at,

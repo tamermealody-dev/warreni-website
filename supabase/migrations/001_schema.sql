@@ -1,5 +1,5 @@
 -- =========================================================
--- ورّيني (Warreeni) — Core Database Schema
+-- علّمني (Allemni) — Core Database Schema
 -- Time-banking skill exchange platform
 -- =========================================================
 -- Run this in the Supabase SQL Editor (or via `supabase db push`)

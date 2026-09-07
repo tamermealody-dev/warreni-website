@@ -32,7 +32,7 @@ export default function PlansClient() {
   async function submitClaim() {
     if (!selectedPlan || !selectedMethod) return
     if (!/^01\d{9}$/.test(senderPhone.replace(/[\s()-]/g, ''))) {
-      setError('اكتب رقم الموبايل اللي حوّلت منه (01xxxxxxxxx).')
+      setError('اكتب رقم الهاتف المحمول الذي حوّلت منه (01xxxxxxxxx).')
       return
     }
     setError(null)
@@ -48,7 +48,7 @@ export default function PlansClient() {
       setReferenceCode(data.referenceCode)
       setStep('submitted')
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'حصل خطأ، جرّب تاني.')
+      setError(err instanceof Error ? err.message : 'حدث خطأ، حاول مرة أخرى.')
     } finally {
       setLoading(false)
     }
@@ -75,14 +75,14 @@ export default function PlansClient() {
   return (
     <main className="plans-page" dir="rtl">
       <div className="plans-shell">
-        <a href="/" className="plans-logo"><span><Clock3 size={19} /></span> ورّيني</a>
+        <a href="/" className="plans-logo"><span><Clock3 size={19} /></span> علّمني</a>
 
         {step === 'plans' && (
           <>
             <header className="plans-header">
               <p className="eyebrow">اشحن وقتك</p>
-              <h1>اختار الباقة اللي <span>تناسبك.</span></h1>
-              <p>لما رصيدك يوصل صفر، اشحن ساعاتك وكمل الجلسات من غير ما الرصيد ينزل تحت الصفر.</p>
+              <h1>اختر الباقة الذي <span>تناسبك.</span></h1>
+              <p>عندما يصل رصيدك إلى صفر، اشحن ساعاتك وأكمل الجلسات من دون أن ينخفض الرصيد إلى أقل من الصفر.</p>
             </header>
 
             <section className="plans-grid">
@@ -115,7 +115,7 @@ export default function PlansClient() {
 
             <div className="payment-trust">
               <ShieldCheck size={20} />
-              <div><strong>الدفع بمراجعة يدوية مؤقتًا</strong><p>لحد ما يتم تفعيل الدفع الفوري (Paymob)، بنقبل التحويل عبر Instapay أو فودافون كاش وبنراجع كل عملية يدويًا قبل إضافة الساعات.</p></div>
+              <div><strong>الدفع بمراجعة يدوية مؤقتًا</strong><p>حتى يتم تفعيل الدفع الفوري (Paymob)، نقبل التحويل عبر Instapay أو فودافون كاش ونراجع كل عملية يدويًا قبل إضافة الساعات.</p></div>
               <Tag size={19} />
             </div>
           </>
@@ -124,7 +124,7 @@ export default function PlansClient() {
         {step === 'method' && selectedPlan && (
           <section className="method-step">
             <button className="button outline small" onClick={reset}>رجوع للباقات</button>
-            <h2>اختار وسيلة الدفع</h2>
+            <h2>اختر وسيلة الدفع</h2>
             <p className="method-subtitle">باقة {selectedPlan.name} · {selectedPlan.hours} ساعات · {selectedPlan.price} جنيه</p>
 
             <div className="method-grid">
@@ -151,13 +151,13 @@ export default function PlansClient() {
             <div className="handle-row">
               <span>{method.handle}</span>
               <button className="button outline small" onClick={() => copyText(method.handle)}>
-                <Copy size={14} /> {copied ? 'اتنسخ' : 'نسخ'}
+                <Copy size={14} /> {copied ? 'تم النسخ' : 'نسخ'}
               </button>
             </div>
 
             <div className="phone-box">
               <label>
-                رقم الموبايل اللي حوّلت منه
+                رقم الهاتف المحمول الذي حوّلت منه
                 <input
                   value={senderPhone}
                   onChange={(e) => setSenderPhone(e.target.value)}
@@ -165,13 +165,13 @@ export default function PlansClient() {
                   placeholder="01xxxxxxxxx"
                 />
               </label>
-              <small>هنستخدم الرقم ده ومبلغ التحويل عشان نلاقي عمليتك ونأكدها.</small>
+              <small>سنستخدم هذا الرقم ومبلغ التحويل للعثور على عمليتك وتأكيدها.</small>
             </div>
 
             {error && <div className="plans-error">{error}</div>}
 
             <button className="button primary full" onClick={submitClaim} disabled={loading}>
-              {loading ? 'جاري الإرسال...' : <>أكدت التحويل <ArrowLeft size={16} /></>}
+              {loading ? 'جاري الإرسال...' : <>أكّدت التحويل <ArrowLeft size={16} /></>}
             </button>
           </section>
         )}
@@ -180,7 +180,7 @@ export default function PlansClient() {
           <section className="method-step instructions-box submitted-box">
             <ClipboardCheck size={40} />
             <h2>استلمنا طلبك</h2>
-            <p className="method-subtitle">هنراجع التحويل ونضيف {selectedPlan.hours} ساعات لحسابك خلال ساعات قليلة.</p>
+            <p className="method-subtitle">سنراجع التحويل ونضيف {selectedPlan.hours} ساعات لحسابك خلال ساعات قليلة.</p>
             {referenceCode && (
               <div className="handle-row">
                 <span>رقم الطلب: {referenceCode}</span>
@@ -190,13 +190,13 @@ export default function PlansClient() {
               </div>
             )}
             <div className="payment-actions">
-              <a href="/profile" className="button primary">العودة للبروفايل <ArrowLeft size={16} /></a>
-              <button className="button outline" onClick={reset}>شحن باقة تانية</button>
+              <a href="/profile" className="button primary">العودة للملف شخصي <ArrowLeft size={16} /></a>
+              <button className="button outline" onClick={reset}>شحن باقة أخرى</button>
             </div>
           </section>
         )}
 
-        <p className="plans-note">بعد إرسال التحويل قد يستغرق تأكيد العملية شوية وقت لحد ما تتراجع يدويًا.</p>
+        <p className="plans-note">بعد إرسال التحويل قد يستغرق تأكيد العملية بعض الوقت حتى تتم مراجعتها يدويًا.</p>
       </div>
     </main>
   )
